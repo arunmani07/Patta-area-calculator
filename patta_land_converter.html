@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patta Land Converter</title>
+<style>
+:root{--g:#166534;--g2:#14532d;--soft:#eff8f1;--line:#d8e2da;--text:#17221b;--muted:#68746d}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#eef5f0,#f8faf9);color:var(--text);font-family:Arial,"Noto Sans Tamil",sans-serif}
+.app{max-width:1180px;margin:24px auto;padding:0 16px}
+.hero{background:linear-gradient(135deg,#14532d,#166534);color:#fff;padding:25px;border-radius:18px;box-shadow:0 10px 30px #14532d25;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.hero h1{margin:0;font-size:25px}.hero p{margin:7px 0 0;font-size:13px;opacity:.9}
+.lang{display:flex;background:#0e3d22;padding:4px;border-radius:10px}.lang button{border:0;background:transparent;color:#fff;padding:8px 13px;border-radius:7px;font-weight:bold;cursor:pointer}.lang button.active{background:#fff;color:var(--g2)}
+.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:21px;margin-top:16px;box-shadow:0 5px 18px #173d2710}
+.card h2{font-size:17px;margin:0 0 16px;color:var(--g2)}.sub{font-size:12px;color:var(--muted);margin-top:-9px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.field label{display:block;font-size:12px;font-weight:bold;color:#4e5b53;margin-bottom:6px}
+input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius:9px;font-size:14px;background:#fff;outline:none}input:focus,select:focus{border-color:#2e8b57;box-shadow:0 0 0 3px #16653412}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:separate;border-spacing:0;min-width:860px}th,td{padding:10px;border-bottom:1px solid #e3e8e4;text-align:center;font-size:12px}th{background:#f2f8f3;color:var(--g2);font-size:11px;text-transform:uppercase}th:first-child{border-radius:8px 0 0 0}th:last-child{border-radius:0 8px 0 0}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px;align-items:center}
+.top-actions{justify-content:flex-start}.result-actions{justify-content:flex-end}
+.input-table th,.input-table td{vertical-align:middle}.input-table input,.input-table select{height:40px}
+.input-table td:nth-child(1){width:17%}.input-table td:nth-child(2){width:23%}.input-table td:nth-child(3){width:18%}.input-table td:nth-child(4){width:16%}.input-table td:nth-child(5){width:16%}.input-table td:nth-child(6){width:90px}.btn{border:0;border-radius:9px;padding:10px 15px;font-weight:bold;cursor:pointer}.primary{background:var(--g);color:#fff}.secondary{background:#eaf3ed;color:var(--g2)}.copy{background:#e9eefb;color:#24427c}.whatsapp{background:#dcfce7;color:#166534}.danger{background:#fee2e2;color:#991b1b;padding:7px 10px}
+.result-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}.stat{background:var(--soft);border:1px solid #d9ecdd;border-radius:11px;padding:12px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;color:var(--g2);font-size:17px;margin-top:4px}
+.toast{position:fixed;right:20px;bottom:20px;background:#153b25;color:#fff;padding:11px 16px;border-radius:9px;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;font-size:13px}.toast.show{opacity:1;transform:translateY(0)}
+/* Simple 3-step guidance */
+.step-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 0}
+.step-item{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 13px;box-shadow:0 3px 12px #173d2708}
+.step-number{width:28px;height:28px;flex:0 0 28px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#fff;font-size:12px;font-weight:800}
+.step-text{font-size:12px;font-weight:700;color:#33443a}
+@media(max-width:700px){.step-flow{grid-template-columns:1fr}.step-item{padding:9px 12px}}
+
+/* Print document */
+.print-only{display:none}
+.doc{border:1px solid #777;background:#fff;color:#111}
+.doc-title{text-align:center;padding:15px 10px 12px;border-bottom:1px solid #333}.doc-title h2{font-size:17px;margin:0 0 4px;color:#111}.doc-title p{font-size:11px;margin:3px}
+.doc-meta{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #333}.doc-meta div{padding:7px 10px;font-size:11px;border-right:1px solid #333}.doc-meta div:nth-child(even){border-right:0}
+.doc-owner{padding:8px 10px;border-bottom:1px solid #333;font-size:11px}
+.doc table{min-width:0;width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #555;padding:7px 5px;font-size:10px}.doc th{background:#f3f3f3;color:#111;text-transform:none}
+.doc-total{display:flex;justify-content:flex-end;gap:12px;padding:9px 10px;border-bottom:1px solid #333;font-size:11px;font-weight:bold}.doc-foot{padding:8px 10px;font-size:8.5px;color:#555}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.result-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:550px){.grid{grid-template-columns:1fr}.result-grid{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column;align-items:flex-start}}
+@media print{
+ body{background:#fff}.app>*:not(.print-container){display:none!important}.print-container{display:block!important;margin:0;padding:0}.print-only{display:block}.doc{border:0}
+}
+
+/* Final UI refinements */
+:root{
+  --primary:#166534;
+  --primary-dark:#14532d;
+  --primary-soft:#ecfdf5;
+  --accent:#0f766e;
+  --danger:#dc2626;
+  --danger-dark:#b91c1c;
+  --whatsapp:#16a34a;
+  --whatsapp-dark:#15803d;
+  --blue:#2563eb;
+  --blue-dark:#1d4ed8;
+}
+.btn{border:0;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer;transition:.18s ease;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.btn-add{background:var(--primary);color:#fff}
+.btn-add:hover{background:var(--primary-dark)}
+.btn-reset{background:var(--danger);color:#fff}
+.btn-reset:hover{background:var(--danger-dark)}
+.btn-copy{background:var(--blue);color:#fff}
+.btn-copy:hover{background:var(--blue-dark)}
+.btn-wa{background:var(--whatsapp);color:#fff}
+.btn-wa:hover{background:var(--whatsapp-dark)}
+.btn-print{background:#475569;color:#fff}
+.btn-print:hover{background:#334155}
+
+.patta-table{table-layout:fixed;width:100%}
+.patta-table th,.patta-table td{vertical-align:middle}
+.patta-table th:nth-child(1){width:17%}
+.patta-table th:nth-child(2){width:21%}
+.patta-table th:nth-child(3){width:19%}
+.patta-table th:nth-child(4){width:14%}
+.patta-table th:nth-child(5){width:14%}
+.patta-table th:nth-child(6){width:15%}
+.patta-table input,.patta-table select{width:100%;box-sizing:border-box;height:42px;margin:0}
+.patta-table .subdivision-input{min-width:0}
+.row-actions{display:flex;gap:8px;justify-content:center;align-items:center}
+.table-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.helper-text{display:none!important}
+@media(max-width:700px){
+  .patta-table{table-layout:auto}
+  .patta-table th,.patta-table td{padding:7px 5px}
+  .patta-table input,.patta-table select{height:40px}
+}
+
+
+/* Final Original Patta Reading alignment */
+.patta-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+.patta-table th,
+.patta-table td{
+  box-sizing:border-box;
+  vertical-align:middle;
+}
+.patta-table th:nth-child(1),
+.patta-table td:nth-child(1){width:17%}
+.patta-table th:nth-child(2),
+.patta-table td:nth-child(2){width:21%}
+.patta-table th:nth-child(3),
+.patta-table td:nth-child(3){width:19%}
+.patta-table th:nth-child(4),
+.patta-table td:nth-child(4){width:14%}
+.patta-table th:nth-child(5),
+.patta-table td:nth-child(5){width:14%}
+.patta-table th:nth-child(6),
+.patta-table td:nth-child(6){width:15%}
+
+.patta-table td input,
+.patta-table td select{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  height:42px;
+  margin:0;
+  box-sizing:border-box;
+  padding:8px 10px;
+}
+.patta-table td:nth-child(2) input{
+  width:100%;
+}
+.patta-table .row-actions{
+  display:flex;
+  width:100%;
+  justify-content:center;
+  align-items:center;
+  gap:6px;
+}
+.btn-reset{
+  background:#dc2626 !important;
+  color:#fff !important;
+}
+.btn-reset:hover{
+  background:#b91c1c !important;
+}
+@media(max-width:700px){
+  .patta-table{
+    table-layout:auto;
+  }
+  .patta-table th,
+  .patta-table td{
+    width:auto !important;
+  }
+}
+
+
+/* Final polished UI */
+:root{
+  --primary:#166534;
+  --primary-dark:#14532d;
+  --green-soft:#ecfdf5;
+  --blue:#2563eb;
+  --blue-dark:#1d4ed8;
+  --whatsapp:#16a34a;
+  --whatsapp-dark:#15803d;
+  --danger:#dc2626;
+  --danger-dark:#b91c1c;
+  --slate:#475569;
+  --slate-dark:#334155;
+}
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:11px 18px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn.add{background:var(--primary)!important;color:#fff!important}
+.btn.add:hover{background:var(--primary-dark)!important}
+.btn.secondary,.btn-reset{background:var(--danger)!important;color:#fff!important}
+.btn.secondary:hover,.btn-reset:hover{background:var(--danger-dark)!important}
+.btn.copy{background:var(--blue)!important;color:#fff!important}
+.btn.copy:hover{background:var(--blue-dark)!important}
+.btn.whatsapp{background:var(--whatsapp)!important;color:#fff!important}
+.btn.whatsapp:hover{background:var(--whatsapp-dark)!important}
+.btn.primary{background:var(--slate)!important;color:#fff!important}
+.btn.primary:hover{background:var(--slate-dark)!important}
+
+.input-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+.input-table th,
+.input-table td{
+  box-sizing:border-box;
+  vertical-align:middle;
+}
+.input-table th:nth-child(1),.input-table td:nth-child(1){width:16%}
+.input-table th:nth-child(2),.input-table td:nth-child(2){width:20%}
+.input-table th:nth-child(3),.input-table td:nth-child(3){width:18%}
+.input-table th:nth-child(4),.input-table td:nth-child(4){width:14%}
+.input-table th:nth-child(5),.input-table td:nth-child(5){width:14%}
+.input-table th:nth-child(6),.input-table td:nth-child(6){width:18%}
+
+.input-table td input,
+.input-table td select{
+  display:block;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  height:42px;
+  margin:0;
+  padding:8px 10px;
+  box-sizing:border-box;
+}
+.input-table .row-actions{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.input-table .row-remove{
+  width:auto;
+  min-width:76px;
+  padding:9px 12px;
+}
+.table-actions,.top-actions,.result-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+@media(max-width:700px){
+  .input-table{table-layout:auto}
+  .input-table th,.input-table td{width:auto!important}
+  .input-table td input,.input-table td select{height:40px}
+}
+
+
+/* Responsive tables: compact columns + always-visible horizontal scrolling */
+.table-wrap,
+.result-table-wrap,
+.converted-table-wrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:scroll !important;
+  overflow-y:hidden;
+  scrollbar-width:auto;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:8px;
+}
+.table-wrap::-webkit-scrollbar,
+.result-table-wrap::-webkit-scrollbar,
+.converted-table-wrap::-webkit-scrollbar{
+  height:10px;
+}
+.input-table,
+.result-table{
+  width:100% !important;
+  min-width:0;
+  table-layout:auto !important;
+}
+.input-table th,
+.input-table td,
+.result-table th,
+.result-table td{
+  white-space:nowrap;
+}
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){min-width:105px;width:auto}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){min-width:125px;width:auto}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){min-width:105px;width:auto}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){min-width:105px;width:auto}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){min-width:90px;width:auto}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){min-width:95px;width:auto}
+.input-table td input,
+.input-table td select{
+  width:100%;
+  min-width:0;
+}
+.result-table th,
+.result-table td{
+  min-width:105px;
+}
+.result-table th:nth-child(1),
+.result-table td:nth-child(1){min-width:105px}
+.result-table th:nth-child(2),
+.result-table td:nth-child(2){min-width:125px}
+.result-table th:nth-child(3),
+.result-table td:nth-child(3){min-width:105px}
+.result-table th:nth-child(4),
+.result-table td:nth-child(4),
+.result-table th:nth-child(5),
+.result-table td:nth-child(5),
+.result-table th:nth-child(6),
+.result-table td:nth-child(6),
+.result-table th:nth-child(7),
+.result-table td:nth-child(7){min-width:105px}
+
+@media(max-width:700px){
+  .input-table,.result-table{
+    min-width:0;
+  }
+}
+
+
+/* Final responsive table sizing */
+.table-wrap,
+.result-table-wrap,
+.converted-table-wrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:scroll !important;
+  overflow-y:hidden;
+  scrollbar-width:auto !important;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:10px;
+  box-sizing:border-box;
+}
+.table-wrap::-webkit-scrollbar,
+.result-table-wrap::-webkit-scrollbar,
+.converted-table-wrap::-webkit-scrollbar{
+  height:10px;
+  display:block;
+}
+.table-wrap::-webkit-scrollbar-thumb,
+.result-table-wrap::-webkit-scrollbar-thumb,
+.converted-table-wrap::-webkit-scrollbar-thumb{
+  border-radius:10px;
+}
+.input-table,
+.result-table{
+  width:100% !important;
+  max-width:none;
+  table-layout:auto !important;
+  margin:0;
+}
+.input-table th,
+.input-table td,
+.result-table th,
+.result-table td{
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+.input-table th,
+.input-table td{
+  min-width:0;
+}
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){min-width:105px}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){min-width:125px}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){min-width:105px}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){min-width:95px}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){min-width:80px}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){min-width:85px}
+
+.input-table td input,
+.input-table td select{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+
+.result-table th,
+.result-table td{min-width:95px}
+.result-table th:nth-child(1),
+.result-table td:nth-child(1){min-width:105px}
+.result-table th:nth-child(2),
+.result-table td:nth-child(2){min-width:125px}
+.result-table th:nth-child(3),
+.result-table td:nth-child(3){min-width:105px}
+.result-table th:nth-child(4),
+.result-table td:nth-child(4),
+.result-table th:nth-child(5),
+.result-table td:nth-child(5),
+.result-table th:nth-child(6),
+.result-table td:nth-child(6),
+.result-table th:nth-child(7),
+.result-table td:nth-child(7),
+.result-table th:nth-child(8),
+.result-table td:nth-child(8){min-width:100px}
+
+@media(max-width:700px){
+  .input-table,
+  .result-table{
+    width:100% !important;
+    min-width:0;
+  }
+}
+
+
+/* Restored table structure */
+.table-wrap,
+.result-table-wrap,
+.converted-table-wrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:scroll !important;
+  overflow-y:hidden;
+  scrollbar-width:auto !important;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:10px;
+  box-sizing:border-box;
+}
+.table-wrap::-webkit-scrollbar,
+.result-table-wrap::-webkit-scrollbar,
+.converted-table-wrap::-webkit-scrollbar{
+  height:10px;
+  display:block;
+}
+.table-wrap::-webkit-scrollbar-thumb,
+.result-table-wrap::-webkit-scrollbar-thumb,
+.converted-table-wrap::-webkit-scrollbar-thumb{
+  border-radius:10px;
+}
+.input-table,
+.result-table{
+  width:max-content !important;
+  min-width:720px;
+  max-width:none;
+  table-layout:auto !important;
+  margin:0;
+}
+.input-table th,
+.input-table td,
+.result-table th,
+.result-table td{
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){min-width:105px}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){min-width:125px}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){min-width:105px}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){min-width:95px}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){min-width:80px}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){min-width:85px}
+.input-table td input,
+.input-table td select{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.result-table th,
+.result-table td{min-width:95px}
+.result-table th:nth-child(1),
+.result-table td:nth-child(1){min-width:105px}
+.result-table th:nth-child(2),
+.result-table td:nth-child(2){min-width:125px}
+.result-table th:nth-child(3),
+.result-table td:nth-child(3){min-width:105px}
+.result-table th:nth-child(4),
+.result-table td:nth-child(4),
+.result-table th:nth-child(5),
+.result-table td:nth-child(5),
+.result-table th:nth-child(6),
+.result-table td:nth-child(6),
+.result-table th:nth-child(7),
+.result-table td:nth-child(7),
+.result-table th:nth-child(8),
+.result-table td:nth-child(8){min-width:100px}
+@media(max-width:700px){
+  .input-table,.result-table{
+    width:max-content !important;
+    min-width:720px;
+  }
+}
+
+
+/* Compact Original Patta Reading controls */
+.input-table{
+  width:100% !important;
+  table-layout:fixed !important;
+}
+
+.input-table th,
+.input-table td{
+  box-sizing:border-box;
+  vertical-align:middle;
+}
+
+/* Balanced column widths */
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){width:16%}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){width:19%}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){width:17%}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){width:13%}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){width:13%}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){width:14%}
+
+/* Short, compact boxes */
+.input-table td input,
+.input-table td select{
+  display:block;
+  width:100%;
+  max-width:150px;
+  min-width:0;
+  height:40px;
+  margin:0 auto;
+  padding:7px 9px;
+  box-sizing:border-box;
+}
+
+/* Smaller numeric boxes */
+.input-table td:nth-child(1) input{max-width:105px}
+.input-table td:nth-child(2) input{max-width:120px}
+.input-table td:nth-child(3) select{max-width:115px}
+.input-table td:nth-child(4) input{max-width:95px}
+.input-table td:nth-child(5) input{max-width:90px}
+
+/* Action box/button */
+.input-table .row-actions{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.input-table .row-remove{
+  max-width:none;
+  width:auto;
+  min-width:72px;
+  height:38px;
+  padding:7px 11px;
+}
+
+@media(max-width:700px){
+  .input-table td input,
+  .input-table td select{
+    max-width:100%;
+    height:38px;
+    padding:6px 7px;
+  }
+}
+
+
+/* Original Patta Reading — consistent typography and sizing */
+.input-table th{
+  height:44px;
+  padding:9px 10px;
+  font-size:14px;
+  line-height:1.2;
+  white-space:nowrap;
+  text-align:center;
+  vertical-align:middle;
+  box-sizing:border-box;
+}
+
+.input-table td{
+  height:58px;
+  padding:8px 10px;
+  vertical-align:middle;
+  box-sizing:border-box;
+}
+
+/* Every placeholder uses the same font size, weight and light-grey tone */
+.input-table td input::placeholder{
+  color:#9ca3af !important;
+  opacity:1 !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+  line-height:1.2;
+}
+.input-table td input{
+  font-size:13px;
+  font-weight:400;
+  height:40px;
+  border-radius:8px;
+  box-sizing:border-box;
+}
+
+/* Type dropdown matches the input typography */
+.input-table td select{
+  font-size:13px;
+  font-weight:400;
+  height:40px;
+  border-radius:8px;
+  box-sizing:border-box;
+}
+
+/* Balanced, predictable column widths */
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){width:16%}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){width:20%}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){width:17%}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){width:13%}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){width:13%}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){width:13%}
+
+/* Keep each box centered and proportional to its column */
+.input-table td input,
+.input-table td select{
+  display:block;
+  width:100%;
+  max-width:140px;
+  min-width:0;
+  margin:0 auto;
+  padding:8px 9px;
+}
+
+.input-table td:nth-child(1) input{max-width:105px}
+.input-table td:nth-child(2) input{max-width:120px}
+.input-table td:nth-child(3) select{max-width:115px}
+.input-table td:nth-child(4) input{max-width:95px}
+.input-table td:nth-child(5) input{max-width:90px}
+
+.input-table .row-actions{
+  height:40px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+@media(max-width:700px){
+  .input-table th{
+    font-size:13px;
+    padding:8px 6px;
+  }
+  .input-table td{
+    padding:7px 6px;
+  }
+  .input-table td input,
+  .input-table td select{
+    max-width:100%;
+    font-size:13px;
+  }
+}
+
+
+/* Final Original Patta Reading alignment:
+   each heading sits exactly above its input box. */
+.table-wrap{
+  width:100%;
+  max-width:100%;
+  overflow-x:auto !important;
+  overflow-y:hidden;
+  box-sizing:border-box;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Compact table width: columns follow their controls instead of stretching. */
+.input-table{
+  width:max-content !important;
+  min-width:0 !important;
+  max-width:none !important;
+  table-layout:fixed !important;
+  margin:0 auto;
+}
+
+/* Header and input cell use the exact same column widths. */
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){width:115px;min-width:115px}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){width:135px;min-width:135px}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){width:120px;min-width:120px}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){width:105px;min-width:105px}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){width:95px;min-width:95px}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){width:90px;min-width:90px}
+
+.input-table th{
+  height:44px;
+  padding:9px 6px;
+  font-size:13px;
+  text-align:center;
+  vertical-align:middle;
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+
+.input-table td{
+  height:58px;
+  padding:8px 6px;
+  box-sizing:border-box;
+  vertical-align:middle;
+}
+
+/* Boxes exactly fill their matching columns — no visual mismatch. */
+.input-table td input,
+.input-table td select{
+  display:block;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  height:40px;
+  margin:0;
+  padding:8px 9px;
+  box-sizing:border-box;
+  font-size:13px;
+  border-radius:8px;
+}
+
+.input-table td input::placeholder{
+  color:#9ca3af !important;
+  opacity:1 !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+}
+
+.input-table .row-actions{
+  width:100%;
+  height:40px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.input-table .row-remove{
+  width:auto;
+  min-width:72px;
+  height:38px;
+  padding:7px 10px;
+}
+
+/* On narrow screens the table remains a proper table and scrolls only
+   when the complete table cannot fit. */
+@media(max-width:700px){
+  .input-table{
+    margin:0;
+  }
+}
+
+
+
+/* Original Patta Reading: shorter, balanced headings and input boxes */
+.input-table{
+  width:auto !important;
+  max-width:100% !important;
+  table-layout:fixed !important;
+  margin:0 auto !important;
+  border-collapse:separate !important;
+  border-spacing:8px 0 !important;
+}
+
+.input-table th,
+.input-table td{
+  box-sizing:border-box;
+  vertical-align:middle;
+  text-align:center;
+  padding-left:5px !important;
+  padding-right:5px !important;
+}
+
+/* Compact but comfortable column widths */
+.input-table th:nth-child(1),
+.input-table td:nth-child(1){width:125px !important; min-width:125px !important}
+.input-table th:nth-child(2),
+.input-table td:nth-child(2){width:145px !important; min-width:145px !important}
+.input-table th:nth-child(3),
+.input-table td:nth-child(3){width:115px !important; min-width:115px !important}
+.input-table th:nth-child(4),
+.input-table td:nth-child(4){width:100px !important; min-width:100px !important}
+.input-table th:nth-child(5),
+.input-table td:nth-child(5){width:90px !important; min-width:90px !important}
+.input-table th:nth-child(6),
+.input-table td:nth-child(6){width:85px !important; min-width:85px !important}
+
+.input-table th{
+  height:42px;
+  font-size:13px !important;
+  line-height:1.15;
+  white-space:nowrap;
+}
+
+.input-table td{
+  height:54px;
+}
+
+.input-table td input,
+.input-table td select{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  height:40px;
+  margin:0;
+  padding:8px 9px;
+  box-sizing:border-box;
+  font-size:13px !important;
+  border-radius:8px;
+}
+
+.input-table td input::placeholder{
+  color:#9ca3af !important;
+  opacity:1 !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+}
+
+.input-table .row-actions{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+}
+
+@media(max-width:700px){
+  .table-wrap{
+    overflow-x:auto !important;
+  }
+  .input-table{
+    margin:0 !important;
+  }
+}
+
+/* Converted Result detailed table includes all conversion values */
+.card .table-wrap > table:not(.input-table){min-width:860px;}
+
+/* ===== Premium Print Statement ===== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 14mm;
+  }
+
+  body {
+    background:#fff !important;
+    color:#1f2937 !important;
+    font-family:Arial,Helvetica,sans-serif !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
+
+  /* Hide the web application itself; show only the print statement */
+  body > *:not(#printArea) {
+    display:none !important;
+  }
+
+  #printArea {
+    display:block !important;
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:#fff !important;
+    color:#1f2937 !important;
+  }
+
+  #printArea .print-shell {
+    border:1px solid #d1d5db;
+    border-radius:14px;
+    overflow:hidden;
+    background:#fff;
+  }
+
+  #printArea .print-header {
+    background:#166534 !important;
+    color:#fff !important;
+    padding:20px 22px 18px;
+  }
+
+  #printArea .print-header .eyebrow {
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    opacity:.85;
+    margin-bottom:6px;
+  }
+
+  #printArea .print-header h1 {
+    margin:0;
+    font-size:24px;
+    line-height:1.2;
+    font-weight:800;
+  }
+
+  #printArea .print-header p {
+    margin:6px 0 0;
+    font-size:12px;
+    opacity:.9;
+  }
+
+  #printArea .print-section {
+    margin:0;
+    padding:16px 20px;
+    break-inside:avoid;
+  }
+
+  #printArea .print-section + .print-section {
+    border-top:1px solid #e5e7eb;
+  }
+
+  #printArea .print-section-title {
+    margin:0 0 11px;
+    padding-bottom:7px;
+    border-bottom:2px solid #166534;
+    color:#14532d;
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:.3px;
+  }
+
+  #printArea .print-meta {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+  }
+
+  #printArea .meta-item {
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+    background:#f8fafc !important;
+    padding:9px 10px;
+  }
+
+  #printArea .meta-label {
+    display:block;
+    color:#64748b;
+    font-size:10px;
+    margin-bottom:3px;
+    font-weight:700;
+  }
+
+  #printArea .meta-value {
+    display:block;
+    color:#111827;
+    font-size:12px;
+    font-weight:700;
+    min-height:14px;
+    word-break:break-word;
+  }
+
+  #printArea .print-table {
+    width:100%;
+    border-collapse:collapse;
+    font-size:10.5px;
+  }
+
+  #printArea .print-table th {
+    background:#166534 !important;
+    color:#fff !important;
+    border:1px solid #14532d;
+    padding:8px 6px;
+    text-align:center;
+    font-weight:800;
+  }
+
+  #printArea .print-table td {
+    border:1px solid #d1d5db;
+    padding:7px 6px;
+    text-align:center;
+    vertical-align:middle;
+  }
+
+  #printArea .print-table tbody tr:nth-child(even) td {
+    background:#f0fdf4 !important;
+  }
+
+  #printArea .print-table .total-row td {
+    background:#dcfce7 !important;
+    color:#14532d !important;
+    font-weight:800;
+    border-top:2px solid #166534;
+  }
+
+  #printArea .print-note {
+    margin-top:12px;
+    padding:10px 12px;
+    border-left:4px solid #f59e0b;
+    background:#fffbeb !important;
+    color:#713f12;
+    border-radius:6px;
+    font-size:9.5px;
+    line-height:1.45;
+  }
+
+  #printArea .print-footer {
+    padding:10px 20px 14px;
+    color:#64748b;
+    font-size:8.5px;
+    text-align:center;
+    border-top:1px solid #e5e7eb;
+  }
+
+  #printArea .print-footer strong {
+    color:#475569;
+  }
+}
+
+/* Preview of print layout if printArea is shown in the web page */
+.print-shell{
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+
+@media print {
+  #printArea .print-total{
+    border:1px solid #bbf7d0;
+    border-radius:8px;
+    background:#f0fdf4 !important;
+    color:#14532d;
+    padding:11px 13px;
+    font-size:11px;
+    line-height:1.65;
+    font-weight:700;
+  }
+}
+
+
+/* ===== PRINT FIX: use the existing print-container/print-only markup ===== */
+@media print {
+  @page{
+    size:A4 portrait;
+    margin:12mm;
+  }
+
+  html, body{
+    width:100% !important;
+    min-height:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:#fff !important;
+    color:#1f2937 !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
+
+  /* Hide the normal app, but keep the existing print container visible. */
+  body > .app{
+    display:block !important;
+  }
+  .app > *:not(.print-container){
+    display:none !important;
+  }
+
+  .print-container{
+    display:block !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:#fff !important;
+  }
+
+  .print-only{
+    display:block !important;
+    width:100% !important;
+    visibility:visible !important;
+  }
+
+  .print-only .doc{
+    display:block !important;
+    width:100% !important;
+    min-height:205mm !important;
+    box-sizing:border-box;
+    border:1px solid #d1d5db !important;
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff !important;
+    color:#1f2937 !important;
+  }
+
+  .print-only .doc-title{
+    background:#166534 !important;
+    color:#fff !important;
+    padding:22px 20px !important;
+    border:0 !important;
+    text-align:center !important;
+  }
+
+  .print-only .doc-title h2{
+    margin:0 !important;
+    color:#fff !important;
+    font-size:22px !important;
+    line-height:1.2;
+    font-weight:800;
+    letter-spacing:.5px;
+  }
+
+  .print-only .doc-section-label{
+    margin:16px 18px 5px !important;
+    padding:0 !important;
+    color:#166534 !important;
+    font-size:10px !important;
+    font-weight:800 !important;
+    letter-spacing:.8px;
+  }
+
+  .print-only .doc-meta{
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr);
+    column-gap:22px;
+    row-gap:9px;
+    padding:4px 18px 8px;
+  }
+
+  .print-only .doc-meta > div{
+    background:transparent !important;
+    border:0 !important;
+    border-radius:0 !important;
+    padding:3px 0 !important;
+    min-height:0 !important;
+    box-sizing:border-box;
+  }
+
+  .print-only .doc-meta b{
+    display:inline;
+    color:#64748b !important;
+    font-size:8.5px !important;
+    margin-right:3px;
+    font-weight:700;
+  }
+
+  .print-only .doc-meta span{
+    color:#111827 !important;
+    font-size:9.5px !important;
+    font-weight:700;
+    word-break:break-word;
+  }
+
+  .print-only .survey-label{
+    margin-top:14px !important;
+    margin-bottom:6px !important;
+  }
+
+  .print-only > .doc > table{
+    width:calc(100% - 36px) !important;
+    margin:0 18px !important;
+    border-collapse:collapse !important;
+    table-layout:auto !important;
+    font-size:9px !important;
+  }
+
+  .print-only > .doc > table th{
+    background:#166534 !important;
+    color:#fff !important;
+    border:1px solid #14532d !important;
+    padding:8px 5px !important;
+    text-align:center !important;
+    font-weight:800 !important;
+    white-space:nowrap;
+  }
+
+  .print-only > .doc > table td{
+    border:1px solid #d1d5db !important;
+    padding:8px 5px !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+  }
+
+  .print-only > .doc > table tbody tr:nth-child(even) td{
+    background:#f0fdf4 !important;
+  }
+
+  .print-only .doc-total{
+    margin:18px 18px 0 !important;
+    padding:13px 14px !important;
+    border:1px solid #86efac !important;
+    border-radius:8px;
+    background:#ecfdf5 !important;
+    color:#14532d !important;
+    font-size:11px !important;
+    font-weight:800;
+    line-height:1.6;
+  }
+
+  .print-only .doc-foot{
+    margin:18px 18px 16px !important;
+    padding:9px 11px !important;
+    border-left:4px solid #f59e0b !important;
+    background:#fffbeb !important;
+    color:#713f12 !important;
+    border-radius:5px;
+    font-size:8.5px !important;
+    line-height:1.4;
+  }
+
+  .print-only .doc-note,
+  .print-only .doc-footer{
+    display:block !important;
+  }
+}
+
+
+/* Multi-owner UI */
+.field-wide{min-width:0}
+.field-full{grid-column:1/-1}
+.owners-list{display:flex;flex-direction:column;gap:8px}
+.owner-row{display:grid;grid-template-columns:36px minmax(0,1fr) minmax(0,1fr) 42px;gap:8px;align-items:center}
+.owner-no{height:42px;border:1px solid #d7dee8;border-radius:8px;background:#f7f9fb;display:flex;align-items:center;justify-content:center;font-weight:700;color:#475569}
+.owner-row input{width:100%;min-width:0}
+.owner-remove{height:42px;border:1px solid #efb7b7;border-radius:8px;background:#fff5f5;color:#b91c1c;font-size:20px;cursor:pointer}
+.owner-add{margin-top:8px;background:#168447!important;color:#fff!important}
+.print-owner-heading{margin:6px 18px 4px;color:#166534;font-size:10px;font-weight:800;letter-spacing:1px}
+.print-owners{margin:0 18px 8px;display:flex;flex-direction:column;gap:3px}
+.print-owner-row{font-size:10px;line-height:1.3;padding:3px 0;border-bottom:1px solid #e5e7eb}
+.print-owner-row:last-child{border-bottom:0}
+.print-owner-row b{display:inline-block;width:20px;color:#64748b}
+@media(max-width:700px){.owner-row{grid-template-columns:32px minmax(0,1fr) 38px}.owner-row .owner-surname{grid-column:2}.owner-remove{grid-column:3;grid-row:1 / span 2}}
+
+/* ===== FINAL MULTI-OWNER LAYOUT ===== */
+.owner-field{grid-column:1/-1}
+.owner-field>label{display:block}
+.owners-list{display:flex;flex-direction:column;gap:8px}
+.owner-row{display:grid;grid-template-columns:36px minmax(0,1fr) minmax(0,1fr) 42px;gap:8px;align-items:center}
+.owner-no{height:42px;display:flex;align-items:center;justify-content:center;border:1px solid #d7dee8;border-radius:8px;background:#f7f9fb;font-weight:700;color:#475569}
+.owner-row input{width:100%!important;min-width:0}
+.owner-remove{height:42px;border:1px solid #efb7b7;border-radius:8px;background:#fff5f5;color:#b91c1c;font-size:20px;cursor:pointer}
+.owner-add{margin-top:8px!important;background:#166534!important;color:#fff!important}
+@media(max-width:700px){
+ .owner-row{grid-template-columns:32px minmax(0,1fr) 40px}
+ .owner-row .owner-surname{grid-column:2}
+ .owner-remove{grid-column:3;grid-row:1 / span 2}
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+ <div><h1 data-en="Patta Land Converter" data-ta="பட்டா நில அளவு மாற்றி">Patta Land Converter</h1>
+ <p data-en="Convert Patta / Chitta land extent into Acre, Cent, Ground &amp; Sq. Ft."
+ data-ta="பட்டா / சிட்டா பரப்பளவை ஏக்கர், சென்ட், கிரவுண்ட் மற்றும் சதுர அடியாக மாற்றவும்">Convert Patta / Chitta land extent into Acre, Cent, Ground &amp; Sq. Ft.</p></div>
+ <div class="lang"><button id="enBtn" class="active" onclick="setLang('en')">English</button><button id="taBtn" onclick="setLang('ta')">தமிழ்</button></div>
+</header>
+
+<section class="card">
+<h2 data-en="Enter Patta Details" data-ta="பட்டா விவரங்களை உள்ளிடவும்">Enter Patta Details</h2>
+<div class="grid">
+<div class="field field-full owner-field">
+  <label data-en="Owners" data-ta="உரிமையாளர்கள்">Owners</label>
+  <div class="owners-list" id="ownersList"></div>
+  <button class="btn add owner-add" type="button" id="addOwner">+ Add Owner</button>
+</div>
+<div class="field field-wide">
+  <label data-en="Patta Number" data-ta="பட்டா எண்">Patta Number</label>
+  <input id="patta" maxlength="10" inputmode="numeric" pattern="[0-9]*" placeholder="Patta Number" data-placeholder-en="Patta Number" data-placeholder-ta="பட்டா எண்">
+</div>
+<div class="field field-wide">
+  <label data-en="District" data-ta="மாவட்டம்">District</label>
+  <input id="district" placeholder="District" data-placeholder-en="District" data-placeholder-ta="மாவட்டம்">
+</div>
+<div class="field field-wide">
+  <label data-en="Taluk" data-ta="வட்டம்">Taluk</label>
+  <input id="taluk" placeholder="Taluk" data-placeholder-en="Taluk" data-placeholder-ta="வட்டம்">
+</div>
+<div class="field field-wide">
+  <label data-en="Revenue Village" data-ta="வருவாய் கிராமம்">Revenue Village</label>
+  <input id="village" placeholder="Revenue Village" data-placeholder-en="Revenue Village" data-placeholder-ta="வருவாய் கிராமம்">
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2 data-en="Enter Survey Details" data-ta="சர்வே விவரங்களை உள்ளிடவும்">Enter Survey Details</h2>
+<div class="sub" data-en="Enter the Hectare and Are values from your Patta / Chitta." data-ta="உங்கள் பட்டா / சிட்டாவில் உள்ள ஹெக்டேர் மற்றும் ஏர் அளவுகளை உள்ளிடவும்.">Enter the Hectare and Are values from your Patta / Chitta.</div>
+<div class="table-wrap"><table class="input-table"><thead><tr>
+<th data-en="Survey No." data-ta="சர்வே எண்">Survey No.</th><th data-en="Sub-Division" data-ta="உட்பிரிவு">Sub-Division</th><th data-en="Type" data-ta="வகை">Type</th><th data-en="Hectare" data-ta="ஹெக்டேர்">Hectare</th><th data-en="Are" data-ta="ஏர்">Are</th><th data-en="Action" data-ta="செயல்">Action</th>
+</tr></thead><tbody id="rows"></tbody></table></div>
+<div class="actions top-actions">
+<button class="btn add" type="button" onclick="addRow()">+ Add Row</button>
+<button class="btn secondary" type="button" onclick="resetAll()">Reset</button>
+</div>
+</section>
+
+<section class="card">
+<h2 data-en="Converted Result" data-ta="மாற்றப்பட்ட முடிவு">Converted Result</h2>
+<div class="table-wrap" style="margin-top:0"><table><thead><tr>
+<th data-en="Survey No." data-ta="சர்வே எண்">Survey No.</th><th data-en="Sub-Division" data-ta="உட்பிரிவு">Sub-Division</th><th data-en="Type" data-ta="வகை">Type</th><th data-en="Acres" data-ta="ஏக்கர்">Acres</th><th data-en="Cents" data-ta="சென்ட்">Cents</th><th data-en="Ground" data-ta="கிரவுண்ட்">Ground</th><th data-en="Sq. Ft." data-ta="சதுர அடி">Sq. Ft.</th><th data-en="Sq. M" data-ta="சதுர மீட்டர்">Sq. M</th>
+</tr></thead><tbody id="resultRows"></tbody></table></div>
+<div class="result-grid">
+<div class="stat"><small data-en="ACRE" data-ta="ஏக்கர்">ACRE</small><strong id="sAcre">0.0000</strong></div>
+<div class="stat"><small data-en="CENT" data-ta="சென்ட்">CENT</small><strong id="sCent">0.00</strong></div>
+<div class="stat"><small data-en="GROUND" data-ta="கிரவுண்ட்">GROUND</small><strong id="sGround">0.00</strong></div>
+<div class="stat"><small data-en="SQ. FT." data-ta="சதுர அடி">SQ. FT.</small><strong id="sSqft">0.00</strong></div>
+</div>
+<div class="actions result-actions">
+<button class="btn copy" onclick="copyText()">Copy Result</button>
+<button class="btn whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
+<button class="btn primary" onclick="printPatta()">Print</button>
+</div>
+</section>
+
+<div class="print-container">
+<section class="print-only">
+<div class="doc">
+ <div class="doc-title"><h2 data-en="TAMILNADU PATTA DETAILS" data-ta="தமிழ்நாடு பட்டா விவரங்கள்">TAMILNADU PATTA DETAILS</h2></div>
+ <div class="doc-section-label" data-en="PROPERTY DETAILS" data-ta="சொத்து விவரங்கள்">PROPERTY DETAILS</div>
+ <div class="doc-meta">
+  <div><b data-en="Patta No.:" data-ta="பட்டா எண்:">Patta No.:</b> <span id="pPatta">—</span></div>
+  <div><b data-en="District:" data-ta="மாவட்டம்:">District:</b> <span id="pDistrict">—</span></div>
+  <div><b data-en="Taluk:" data-ta="வட்டம்:">Taluk:</b> <span id="pTaluk">—</span></div>
+  <div><b data-en="Revenue Village:" data-ta="வருவாய் கிராமம்:">Revenue Village:</b> <span id="pVillage">—</span></div>
+ </div>
+ <div class="print-owner-heading" data-en="OWNERS" data-ta="உரிமையாளர்கள்">OWNERS</div>
+ <div class="print-owners" id="pOwners"></div>
+ <div class="doc-section-label survey-label" data-en="SURVEY DETAILS" data-ta="சர்வே விவரங்கள்">SURVEY DETAILS</div>
+ <table><thead><tr><th data-en="Survey No." data-ta="சர்வே எண்">Survey No.</th><th data-en="Sub-Division" data-ta="உட்பிரிவு">Sub-Division</th><th data-en="Type" data-ta="வகை">Type</th><th data-en="Acres" data-ta="ஏக்கர்">Acres</th><th data-en="Cents" data-ta="சென்ட்">Cents</th><th data-en="Ground" data-ta="கிரவுண்ட்">Ground</th><th data-en="Sq. Ft." data-ta="சதுர அடி">Sq. Ft.</th><th data-en="Sq. M" data-ta="சதுர மீட்டர்">Sq. M</th></tr></thead>
+ <tbody id="printRows"></tbody></table>
+ <div class="doc-total-section">
+  <div class="doc-total-heading" data-en="TOTAL LAND" data-ta="மொத்த நிலம்">TOTAL LAND</div>
+  <div class="doc-total-grid">
+   <div class="total-box"><span class="total-label" data-en="ACRE" data-ta="ஏக்கர்">ACRE</span><strong id="pAcre">0.0000</strong></div>
+   <div class="total-box"><span class="total-label" data-en="CENT" data-ta="சென்ட்">CENT</span><strong id="pCent">0.00</strong></div>
+   <div class="total-box"><span class="total-label" data-en="GROUND" data-ta="கிரவுண்ட்">GROUND</span><strong id="pGround">0.00</strong></div>
+   <div class="total-box"><span class="total-label" data-en="SQ. FT." data-ta="சதுர அடி">SQ. FT.</span><strong id="pSqft">0.00</strong></div>
+   <div class="total-box"><span class="total-label" data-en="SQ. M" data-ta="சதுர மீட்டர்">SQ. M</span><strong id="pSqm">0.00</strong></div>
+  </div>
+ </div>
+ <div class="doc-foot" data-en="Conversion statement prepared from the entered Patta / Chitta measurements. This printout is not an official Government Patta certificate."
+ data-ta="உள்ளிடப்பட்ட பட்டா / சிட்டா அளவீடுகளின் அடிப்படையில் தயாரிக்கப்பட்ட மாற்று அறிக்கை. இது அரசு வழங்கும் அதிகாரப்பூர்வ பட்டா சான்றிதழ் அல்ல.">Conversion statement prepared from the entered Patta / Chitta measurements. This printout is not an official Government Patta certificate.</div>
+</div>
+</section>
+</div>
+</div>
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const SQM_ACRE=4046.8564224,SQM_CENT=40.468564224,SQM_GROUND=222.967104,SQM_SQFT=10.7639104167;
+const CALCULATE_URL='https://your-site-url.com';
+let currentLang='en';
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function addOwner(d={}){
+  const list=document.getElementById('ownersList');
+  const row=document.createElement('div');
+  row.className='owner-row';
+  row.innerHTML=`<span class="owner-no"></span>
+    <input class="owner-name" type="text" value="${esc(d.name||'')}" placeholder="Name" data-placeholder-en="Name" data-placeholder-ta="பெயர்">
+    <input class="owner-surname" type="text" value="${esc(d.surname||'')}" placeholder="Surname" data-placeholder-en="Surname" data-placeholder-ta="குடும்பப் பெயர்">
+    <button type="button" class="owner-remove" aria-label="Remove owner">×</button>`;
+  list.appendChild(row);
+  row.querySelectorAll('input').forEach(el=>el.addEventListener('input',()=>{updateOwnerNumbers();calculate();}));
+  row.querySelector('.owner-remove').addEventListener('click',()=>{
+    const rows=list.querySelectorAll('.owner-row');
+    if(rows.length===1){row.querySelector('.owner-name').value='';row.querySelector('.owner-surname').value='';}
+    else row.remove();
+    updateOwnerNumbers();calculate();
+  });
+  updateOwnerNumbers();
+  applyDynamicLanguage();
+}
+function updateOwnerNumbers(){
+  document.querySelectorAll('#ownersList .owner-row').forEach((r,i)=>r.querySelector('.owner-no').textContent=i+1);
+}
+function ownersData(){
+  return [...document.querySelectorAll('#ownersList .owner-row')].map(r=>({
+    name:r.querySelector('.owner-name').value.trim(),
+    surname:r.querySelector('.owner-surname').value.trim()
+  })).filter(o=>o.name||o.surname);
+}
+
+function addRow(d={}){
+ const tr=document.createElement('tr');
+ tr.innerHTML=`
+  <td><input class="survey" maxlength="4" inputmode="numeric" value="${esc(d.survey||'')}" placeholder="Survey No." data-placeholder-en="Survey No." data-placeholder-ta="சர்வே எண்"></td>
+  <td><input class="sub subdivision-input" maxlength="6" value="${esc(d.sub||'')}" placeholder="Sub-Division" data-placeholder-en="Sub-Division" data-placeholder-ta="உட்பிரிவு"></td>
+  <td><select class="type">
+      <option value="Punjai" ${d.type==='Punjai'||!d.type?'selected':''} data-en="Punjai" data-ta="புஞ்சை">Punjai</option>
+      <option value="Nanjai" ${d.type==='Nanjai'?'selected':''} data-en="Nanjai" data-ta="நஞ்சை">Nanjai</option>
+      <option value="Other" ${d.type==='Other'?'selected':''} data-en="Other" data-ta="மற்றவை">Other</option>
+  </select></td>
+  <td><input class="ha" type="number" min="0" step="0.0001" value="${esc(d.ha??'')}" placeholder="Hectare" data-placeholder-en="Hectare" data-placeholder-ta="ஹெக்டேர்"></td>
+  <td><input class="are" type="number" min="0" step="0.01" value="${esc(d.are??'')}" placeholder="Are" data-placeholder-en="Are" data-placeholder-ta="ஏர்"></td>
+  <td><div class="row-actions"><button type="button" class="btn danger row-remove" data-en="Remove" data-ta="நீக்கு">Remove</button></div></td>`;
+ const survey=tr.querySelector('.survey');
+ survey.addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);calculate();});
+ tr.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calculate));
+ tr.querySelectorAll('select').forEach(el=>el.addEventListener('change',calculate));
+ tr.querySelector('.row-remove').addEventListener('click',()=>{tr.remove();if(!document.querySelector('#rows tr'))addRow();calculate();});
+ document.getElementById('rows').appendChild(tr);
+ applyDynamicLanguage();
+}
+function rowsData(){
+ return [...document.querySelectorAll('#rows tr')].map(r=>{
+  const sqm=(Number(r.querySelector('.ha').value)||0)*10000+(Number(r.querySelector('.are').value)||0)*100;
+  const acre=sqm/SQM_ACRE, whole=Math.floor(acre+1e-10), cent=(acre-whole)*100;
+  return {survey:r.querySelector('.survey').value.trim()||'—',sub:r.querySelector('.sub').value.trim()||'—',type:r.querySelector('.type').value,sqm,acre,whole,cent,ground:sqm/SQM_GROUND,sqft:sqm*SQM_SQFT};
+ });
+}
+function calculate(){
+ const d=rowsData(),sqm=d.reduce((a,r)=>a+r.sqm,0);
+ document.getElementById('sAcre').textContent=(sqm/SQM_ACRE).toFixed(4);
+ document.getElementById('sCent').textContent=(sqm/SQM_CENT).toFixed(2);
+ document.getElementById('sGround').textContent=(sqm/SQM_GROUND).toFixed(2);
+ document.getElementById('sSqft').textContent=(sqm*SQM_SQFT).toFixed(2);
+ fillTable('resultRows',d);fillTable('printRows',d);syncPrint(d,sqm);
+}
+function fillTable(id,d){
+ const tb=document.getElementById(id);tb.innerHTML='';
+ d.forEach(r=>{const tr=tb.insertRow();[r.survey,r.sub,r.type,r.whole,r.cent.toFixed(2),r.ground.toFixed(2),r.sqft.toFixed(2),r.sqm.toFixed(2)].forEach(v=>tr.insertCell().textContent=v);});
+}
+function syncPrint(d,sqm){
+ const ids={District:'district',Taluk:'taluk',Village:'village',Patta:'patta'};
+ Object.entries(ids).forEach(([p,id])=>{
+   const el=document.getElementById('p'+p);
+   if(el) el.textContent=document.getElementById(id).value.trim()||'—';
+ });
+ const po=document.getElementById('pOwners');
+ if(po){
+   po.innerHTML='';
+   const owners=ownersData();
+   if(!owners.length){
+     po.innerHTML='<div class="print-owner-row">—</div>';
+   }else{
+     owners.forEach((o,i)=>{
+       const div=document.createElement('div');
+       div.className='print-owner-row';
+       const name=[o.name,o.surname].filter(Boolean).join(' ');
+       div.innerHTML='<b>'+(i+1)+'.</b> '+esc(name||'—');
+       po.appendChild(div);
+     });
+   }
+ }
+ document.getElementById('pAcre').textContent=(sqm/SQM_ACRE).toFixed(4);
+ document.getElementById('pCent').textContent=(sqm/SQM_CENT).toFixed(2);
+ document.getElementById('pGround').textContent=(sqm/SQM_GROUND).toFixed(2);
+ document.getElementById('pSqft').textContent=(sqm*SQM_SQFT).toFixed(2);
+ document.getElementById('pSqm').textContent=sqm.toFixed(2);
+}
+
+function printPatta(){
+ calculate();
+ const source=document.querySelector('.print-only');
+ if(!source){alert('Print content is not available.');return;}
+ const w=window.open('','_blank');
+ if(!w){alert('Please allow pop-ups to print the statement.');return;}
+ w.document.open();
+ w.document.write('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Patta Land Conversion Statement</title><style>'+printStyles()+'</style></head><body>'+source.outerHTML+'</body></html>');
+ w.document.close();
+ setTimeout(()=>{w.focus();w.print();},300);
+}
+function printStyles(){return `@page{size:A4 portrait;margin:12mm}*{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;color:#1f2937;font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-only{display:block;width:100%}.doc{width:100%;min-height:205mm;border:1px solid #d1d5db;border-radius:12px;overflow:hidden;background:#fff}.doc-title{background:#166534;color:#fff;padding:22px 20px;text-align:center}.doc-title h2{margin:0;color:#fff;font-size:22px;line-height:1.2;font-weight:800;letter-spacing:.5px}.doc-section-label{margin:16px 18px 8px;color:#166534;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.doc-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 22px;padding:4px 18px 8px}.doc-meta>div{padding:4px 0}.doc-meta b{color:#64748b;font-size:9px;margin-right:4px}.doc-meta span{color:#111827;font-size:10px;font-weight:700}.print-owner-heading{margin:5px 18px 3px;color:#166534;font-size:10px;font-weight:800;letter-spacing:1px}.print-owners{margin:0 18px 8px;display:flex;flex-direction:column;gap:3px}.print-owner-row{font-size:10px;padding:3px 0;border-bottom:1px solid #e5e7eb}.print-owner-row b{display:inline-block;width:20px;color:#64748b}.doc>table{width:calc(100% - 36px);margin:0 18px;border-collapse:collapse;font-size:9px}.doc>table th{background:#166534;color:#fff;border:1px solid #14532d;padding:8px 5px;text-align:center;font-weight:800;white-space:nowrap;text-transform:uppercase}.doc>table td{border:1px solid #d1d5db;padding:8px 5px;text-align:center;font-size:10px}.doc>table tbody tr:nth-child(even) td{background:#f0fdf4}.doc-total-section{margin:20px 18px 0;padding:12px;border:2px solid #166534;border-radius:10px;background:#ecfdf5}.doc-total-heading{text-align:center;color:#14532d;font-size:11px;font-weight:800;letter-spacing:.8px;margin-bottom:9px}.doc-total-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.total-box{background:#fff;border:1px solid #86efac;border-radius:7px;min-height:58px;padding:8px 5px;text-align:center;display:flex;flex-direction:column;justify-content:center}.total-label{color:#64748b;font-size:8px;font-weight:800;margin-bottom:5px}.total-box strong{color:#14532d;font-size:13px}.doc-foot{margin:18px;padding:9px 11px;border-left:4px solid #f59e0b;background:#fffbeb;color:#713f12;border-radius:5px;font-size:8.5px;line-height:1.4}@media print{body{background:#fff}}`;}
+
+function copyText(){
+ const text=getShareText();
+ navigator.clipboard.writeText(text).then(()=>showToast(currentLang==='ta'?'நகலெடுக்கப்பட்டது!':'Copied!')).catch(()=>alert(text));
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function updatePlaceholders(lang){document.querySelectorAll('[data-placeholder-en]').forEach(el=>el.placeholder=lang==='ta'?(el.getAttribute('data-placeholder-ta')||el.getAttribute('data-placeholder-en')):el.getAttribute('data-placeholder-en'));}
+function applyDynamicLanguage(){
+ const lang=currentLang;
+ document.querySelectorAll('#rows [data-placeholder-en],#ownersList [data-placeholder-en]').forEach(el=>el.placeholder=lang==='ta'?(el.getAttribute('data-placeholder-ta')||el.getAttribute('data-placeholder-en')):el.getAttribute('data-placeholder-en'));
+ document.querySelectorAll('#rows option[data-en]').forEach(el=>el.textContent=lang==='ta'?el.dataset.ta:el.dataset.en);
+ document.querySelectorAll('#rows [data-en],#ownersList [data-en]').forEach(el=>{if(el.tagName!=='OPTION')el.textContent=lang==='ta'?el.dataset.ta:el.dataset.en;});
+ updateOwnerNumbers();
+}
+function setLang(l){
+ currentLang=l;document.documentElement.lang=l;
+ document.querySelectorAll('[data-en]').forEach(e=>e.textContent=e.dataset[l]);
+ updatePlaceholders(l);applyDynamicLanguage();
+ enBtn.classList.toggle('active',l==='en');taBtn.classList.toggle('active',l==='ta');calculate();
+}
+function getShareText(){
+ const d=rowsData(),sqm=d.reduce((a,r)=>a+r.sqm,0),owners=ownersData();
+ const L=currentLang==='ta'?{title:'🌾 *பட்டா நில விவரங்கள்*',patta:'பட்டா எண்',owners:'உரிமையாளர்கள்',district:'மாவட்டம்',taluk:'வட்டம்',village:'வருவாய் கிராமம்',survey:'*சர்வே விவரங்கள்*',type:'வகை',area:'பரப்பளவு',acre:'ஏக்கர்',cent:'சென்ட்',ground:'கிரவுண்ட்',sqft:'சதுர அடி',sqm:'சதுர மீட்டர்',total:'மொத்த நிலம்:',totalSurvey:'மொத்த சர்வே எண்:',calc:'உங்களுடையதை கணக்கிடவும்:'}:{title:'🌾 *PATTA LAND DETAILS*',patta:'Patta No',owners:'Owners',district:'District',taluk:'Taluk',village:'Revenue Village',survey:'*SURVEY DETAILS*',type:'Type',area:'Area',acre:'Acre',cent:'Cent',ground:'Ground',sqft:'Sq.Ft',sqm:'Sq.M',total:'TOTAL LAND:',totalSurvey:'Total Survey number:',calc:'Calculate yours at:'};
+ let t=L.title+'\n\n'+L.patta+': '+(document.getElementById('patta').value.trim()||'—')+'\n'+L.owners+':\n';
+ if(owners.length)t+=owners.map((o,i)=>`${i+1}. ${[o.name,o.surname].filter(Boolean).join(' ')}`).join('\n')+'\n'; else t+='—\n';
+ t+=`${L.district}: ${document.getElementById('district').value.trim()||'—'}\n${L.taluk}: ${document.getElementById('taluk').value.trim()||'—'}\n${L.village}: ${document.getElementById('village').value.trim()||'—'}\n\n-----------------------------------------------------------------------\n\n${L.survey}\n\n`;
+ d.forEach((r,i)=>{t+=`${i+1}) Survey/Sub : ${r.survey} / ${r.sub}\n${L.type}: ${r.type}\n${L.area}:\n         - ${r.acre.toFixed(4)} ${L.acre}\n         - ${r.cent.toFixed(2)} ${L.cent}\n         - ${r.ground.toFixed(2)} ${L.ground}\n         - ${r.sqft.toFixed(2)} ${L.sqft}\n         - ${r.sqm.toFixed(2)} ${L.sqm}\n\n`;});
+ t+=`-----------------------------------------------------------------------\n${L.total}\n\n${L.totalSurvey}: ${d.length}\n${L.acre}: ${(sqm/SQM_ACRE).toFixed(4)}\n${L.cent}: ${(sqm/SQM_CENT).toFixed(2)}\n${L.ground}: ${(sqm/SQM_GROUND).toFixed(2)}\n${L.sqft}: ${(sqm*SQM_SQFT).toFixed(2)}\n${L.sqm}: ${sqm.toFixed(2)}\n\n-----------------------------------------------------------------------\n${L.calc}\n${CALCULATE_URL}`;
+ return t;
+}
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(getShareText()),'_blank');}
+function resetAll(){
+ if(!confirm(currentLang==='ta'?'அனைத்து விவரங்களையும் அழிக்கவா?':'Clear all entered details?'))return;
+ ['patta','district','taluk','village'].forEach(id=>document.getElementById(id).value='');
+ document.getElementById('ownersList').innerHTML='';addOwner();
+ document.getElementById('rows').innerHTML='';addRow();calculate();
+}
+['patta','district','taluk','village'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+document.getElementById('addOwner').addEventListener('click',()=>addOwner());
+document.getElementById('patta').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);calculate();});
+addOwner();addRow();setLang('en');
+</script>
+</body>
+</html>
