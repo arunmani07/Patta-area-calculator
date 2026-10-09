@@ -1859,52 +1859,38 @@ async function updateVisitorCount(){
   let cachedValue=null;
   try{
     const cached=Number(localStorage.getItem(cachedKey));
-    if(Number.isFinite(cached) && cached>0){
+    if(Number.isFinite(cached) && cached>=0 && localStorage.getItem(cachedKey)!==null){
       cachedValue=cached;
       el.textContent=cached.toLocaleString('en-IN');
     }
   }catch(e){}
 
-  const base='https://countapi.mileshilliard.com/api/v1';
-  const key=encodeURIComponent(VISITOR_COUNTER_KEY);
-
-  // Register exactly one page view. Using an image request avoids requiring
-  // JavaScript to read the increment response; the service returns JSON.
-  try{
-    await new Promise(resolve=>{
-      const pixel=new Image();
-      let finished=false;
-      const done=()=>{
-        if(finished)return;
-        finished=true;
-        pixel.onload=null;pixel.onerror=null;
-        resolve();
-      };
-      pixel.onload=done;
-      pixel.onerror=done;
-      pixel.src=base+'/hit/'+key+'?t='+Date.now();
-      setTimeout(done,5000);
-    });
-
-    // Read the latest count separately, without incrementing it again.
-    const controller=('AbortController' in window)?new AbortController():null;
-    const timeout=controller?setTimeout(()=>controller.abort(),8000):null;
-    const response=await fetch(base+'/get/'+key+'?t='+Date.now(),{
-      method:'GET',cache:'no-store',mode:'cors',credentials:'omit',
-      ...(controller?{signal:controller.signal}:{})
-    });
-    if(timeout)clearTimeout(timeout);
-    if(!response.ok)throw new Error('Counter API returned HTTP '+response.status);
-    const data=await response.json();
-    const count=Number(data.value);
-    if(!Number.isFinite(count)||count<0)throw new Error('Counter API returned an invalid count');
-    el.textContent=count.toLocaleString('en-IN');
-    try{localStorage.setItem(cachedKey,String(count));}catch(e){}
-    return;
-  }catch(err){
-    console.warn('Visitor count may have been recorded, but the latest value could not be read:',err);
+  // CountAPI v1 was retired. Use Abacus' hit endpoint, which increments and returns the new count.
+  const url='https://abacus.jasoncameron.dev/hit/'+encodeURIComponent('patta-area-calculator-arunmani07')+'/'+encodeURIComponent('visits');
+  let lastError=null;
+  for(let attempt=0;attempt<3;attempt++){
+    let timeout=null;
+    try{
+      const controller=('AbortController' in window)?new AbortController():null;
+      timeout=controller?setTimeout(()=>controller.abort(),8000):null;
+      const response=await fetch(url+(url.includes('?')?'&':'?')+'_='+Date.now()+'_'+attempt,{
+        method:'GET',cache:'no-store',mode:'cors',credentials:'omit',
+        ...(controller?{signal:controller.signal}:{})
+      });
+      if(!response.ok) throw new Error('Visitor counter API returned HTTP '+response.status);
+      const data=await response.json();
+      const count=Number(data.value);
+      if(!Number.isFinite(count)||count<0) throw new Error('Visitor counter API returned an invalid response');
+      el.textContent=count.toLocaleString('en-IN');
+      try{localStorage.setItem(cachedKey,String(count));}catch(e){}
+      return;
+    }catch(err){
+      lastError=err;
+      if(attempt<2) await new Promise(resolve=>setTimeout(resolve,700*(attempt+1)));
+    }finally{ if(timeout) clearTimeout(timeout); }
   }
-  if(cachedValue===null)el.textContent='—';
+  if(cachedValue===null) el.textContent='Unavailable';
+  console.warn('Visitor counter failed. The live count was not changed/displayed because the counter service could not be reached:',lastError);
 }
 
 
