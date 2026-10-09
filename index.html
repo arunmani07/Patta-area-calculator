@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Patta Area Calculator</title>
+<title>Patta Area Calculator - PDF</title>
 <style>
 :root{--g:#166534;--g2:#14532d;--soft:#eff8f1;--line:#d8e2da;--text:#17221b;--muted:#68746d}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#eef5f0,#f8faf9);color:var(--text);font-family:Arial,"Noto Sans Tamil",sans-serif}
@@ -244,9 +244,10 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 .converted-table-wrap{
   width:100%;
   max-width:100%;
-  overflow-x:scroll !important;
+  overflow-x:auto !important;
   overflow-y:hidden;
   scrollbar-width:auto;
+  scrollbar-gutter:stable;
   -webkit-overflow-scrolling:touch;
   padding-bottom:8px;
 }
@@ -316,7 +317,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 .converted-table-wrap{
   width:100%;
   max-width:100%;
-  overflow-x:scroll !important;
+  overflow-x:auto !important;
   overflow-y:hidden;
   scrollbar-width:auto !important;
   -webkit-overflow-scrolling:touch;
@@ -407,7 +408,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 .converted-table-wrap{
   width:100%;
   max-width:100%;
-  overflow-x:scroll !important;
+  overflow-x:auto !important;
   overflow-y:hidden;
   scrollbar-width:auto !important;
   -webkit-overflow-scrolling:touch;
@@ -1290,7 +1291,26 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 }
 .footer-links a:hover{text-decoration:underline}
 .copyright{font-size:12px;line-height:1.5;margin-bottom:7px}
-.developer{font-size:13px;font-weight:600;color:#334155}
+.developer{display:inline-flex;align-items:center;justify-content:center;gap:4px;margin-top:8px;padding:6px 12px;border:1px solid #cfe9df;border-radius:999px;background:linear-gradient(135deg,#f0fdf4,#ecfeff);font-size:13px;font-weight:600;color:#334155;box-shadow:0 3px 12px rgba(15,118,110,.08)}
+.developer strong{font-weight:800;color:#0f766e}
+.developer-emoji{font-size:15px;line-height:1;margin-left:1px}
+.visitor-counter{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
+  padding:7px 12px;
+  border:1px solid #d7e8de;
+  border-radius:999px;
+  background:#ffffff;
+  color:#166534;
+  font-size:13px;
+  font-weight:600;
+  box-shadow:0 2px 8px rgba(22,101,52,.06);
+}
+.visitor-icon{font-size:15px;line-height:1}
+.visitor-counter strong{font-size:14px;font-weight:800;color:#14532d;min-width:18px}
 .footer-emoji{
   display:inline-block;
   margin-left:3px;
@@ -1354,8 +1374,44 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
   .footer-links a{font-size:12px}
   .copyright{font-size:11px}
   .developer{font-size:12px}
+  .visitor-counter{font-size:12px;padding:6px 11px}
+  .visitor-counter strong{font-size:13px}
 }
 
+
+/* ===== Save / Load / History ===== */
+.data-tools{
+  width:min(980px,calc(100% - 28px));
+  margin:18px auto 0;
+  padding:16px 18px;
+  border:1px solid #dce7df;
+  border-radius:14px;
+  background:linear-gradient(180deg,#fbfffc,#f4faf6);
+  text-align:center;
+  box-shadow:0 5px 18px rgba(22,101,52,.05);
+}
+.data-tools-title{font-size:16px;font-weight:800;color:#166534;margin-bottom:10px}
+.data-tools-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+.data-btn{border:1px solid #cfe1d5;border-radius:9px;padding:9px 15px;background:#fff;color:#166534;font-size:14px;font-weight:700;cursor:pointer;transition:.18s}
+.data-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(22,101,52,.10)}
+.data-btn.save{background:#166534;color:#fff;border-color:#166534}
+.data-tools-note{margin-top:8px;font-size:11px;color:#64748b}
+.history-dialog{max-height:82vh}
+.history-item{padding:12px 0;border-bottom:1px solid #e2e8f0}
+.history-item:last-child{border-bottom:0}
+.history-item-title{font-size:14px;font-weight:800;color:#166534;margin-bottom:4px}
+.history-item-meta{font-size:12px;color:#64748b;line-height:1.55;margin-bottom:8px}
+.history-item-actions{display:flex;gap:7px;flex-wrap:wrap}
+.history-item-actions button{padding:7px 10px;border-radius:7px;border:1px solid #d7dee8;background:#fff;cursor:pointer;font-weight:700;color:#334155}
+.history-item-actions .history-load{background:#166534;color:#fff;border-color:#166534}
+.history-empty{padding:18px 0;text-align:center;color:#64748b;font-size:14px}
+.history-footer-actions{margin-top:14px;display:flex;justify-content:flex-end}
+@media(max-width:700px){
+  .data-tools{width:calc(100% - 20px);padding:14px 12px}
+  .data-tools-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .data-btn{padding:10px 6px;font-size:12px}
+  .data-tools-note{font-size:10px}
+}
 
 .result-actions{
   justify-content:flex-start !important;
@@ -1434,6 +1490,157 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
   filter:brightness(.95);
 }
 
+
+/* Final mobile usability refinements */
+@media(max-width:700px){
+  .input-table th,.input-table td{padding:7px 4px;font-size:12px}
+  .input-table td input{min-height:42px;font-size:15px;padding:8px 7px}
+  .input-table th:nth-child(1),.input-table td:nth-child(1){width:19%}
+  .input-table th:nth-child(2),.input-table td:nth-child(2){width:23%}
+  .input-table th:nth-child(3),.input-table td:nth-child(3){width:17%}
+  .input-table th:nth-child(4),.input-table td:nth-child(4){width:17%}
+  .input-table th:nth-child(5),.input-table td:nth-child(5){width:24%}
+  .row-actions{display:flex;flex-direction:column;gap:5px}
+  .row-actions .btn{width:100%;min-height:36px;padding:6px 5px;font-size:11px}
+  .result-actions .btn{min-height:44px}
+}
+
+/* Refined attractive color palette */
+:root{
+  --brand:#0f766e;
+  --brand-dark:#115e59;
+  --brand-light:#ccfbf1;
+  --accent:#d97706;
+  --accent-light:#ffedd5;
+  --success:#15803d;
+  --danger:#dc2626;
+  --ink:#17324d;
+  --muted:#64748b;
+  --surface:#ffffff;
+  --surface-soft:#f8fafc;
+  --border:#dbe5e8;
+  --shadow:0 10px 30px rgba(15,118,110,.10);
+}
+body{background:linear-gradient(180deg,#f0fdfa 0%,#f8fafc 42%,#fefce8 100%);color:var(--ink)}
+.container,.card,.result-card,.data-tools{border-color:var(--border);box-shadow:var(--shadow)}
+button,.btn{transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+button:hover,.btn:hover{transform:translateY(-1px);filter:saturate(1.08);box-shadow:0 7px 18px rgba(15,23,42,.12)}
+.btn.primary,.data-btn.save{background:linear-gradient(135deg,#0f766e,#0d9488);color:#fff;border-color:#0f766e}
+.btn.secondary,.data-btn.history{background:linear-gradient(135deg,#e0f2fe,#ecfeff);color:#155e75;border-color:#bae6fd}
+.btn.danger{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-color:#dc2626}
+.data-tools{background:linear-gradient(135deg,#ffffff 0%,#f0fdfa 100%);}
+.data-tools-title{color:#115e59}
+.data-tools-note{color:#64748b}
+input,select,textarea{border-color:#cbd5e1;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,.14);outline:none}
+.history-dialog{border-color:#99f6e4}
+.history-item{border-color:#dbe5e8;background:linear-gradient(135deg,#fff,#f8fafc)}
+@media(max-width:700px){.data-tools-actions{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+.developer{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.72);border:1px solid rgba(13,148,136,.18);box-shadow:0 4px 14px rgba(15,23,42,.07);font-size:.82rem;color:#64748b;letter-spacing:.1px;}
+.developer strong{font-weight:800;background:linear-gradient(135deg,#0f766e,#0284c7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.developer-label{font-weight:500;}
+@media(max-width:700px){.developer{margin-top:8px;padding:6px 12px;font-size:.78rem;}}
+
+
+/* Old Green professional theme - final reference palette */
+:root{
+  --old-green:#08713f;
+  --old-green-dark:#075f32;
+  --old-green-deep:#0b6b3b;
+  --old-green-soft:#effcf5;
+  --old-green-pale:#f5fbf7;
+  --old-green-line:#cfe5d7;
+  --old-green-muted:#5f7468;
+  --old-green-shadow:rgba(8,113,63,.12);
+}
+body{background:linear-gradient(180deg,#edf8f0 0%,#f7fbf8 52%,#f4faf6 100%);color:#17352a}
+.hero{
+  background:linear-gradient(135deg,#075f32 0%,#08713f 48%,#159653 100%);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 10px 30px rgba(7,95,50,.18)
+}
+.hero h1{letter-spacing:.15px}.hero p{opacity:.92}
+.lang{background:#064a29}.lang button.active{color:#075f32}
+.card,.data-tools{border-color:var(--old-green-line);box-shadow:0 7px 22px rgba(8,113,63,.08)}
+.card h2,.data-tools-title{color:var(--old-green-deep)}
+.field label{color:#486256}
+input,select,textarea{border-color:#c9ddd1;background:#fff;color:#17352a}
+input:focus,select:focus,textarea:focus{border-color:#159653;box-shadow:0 0 0 3px rgba(8,113,63,.13)}
+th{background:#edf8f0;color:#075f32}
+.table-wrap::-webkit-scrollbar-thumb{background:#9cc8ad;border-radius:999px}
+.table-wrap::-webkit-scrollbar-track{background:#edf5ef;border-radius:999px}
+.btn.add,.data-btn.save{background:linear-gradient(135deg,#075f32,#08713f)!important;color:#fff!important;border-color:#075f32!important}
+.btn.add:hover,.data-btn.save:hover{background:linear-gradient(135deg,#064a29,#075f32)!important}
+.btn.whatsapp{background:#16a34a!important;color:#fff!important}
+.btn.copy{background:#2563eb!important;color:#fff!important}
+.btn.primary{background:linear-gradient(135deg,#6d3fd1,#7c4fe0)!important;color:#fff!important}
+.btn.secondary,.data-btn.history{background:linear-gradient(135deg,#fff4d6,#ffedbd)!important;color:#7a5600!important;border-color:#f1d58b!important}
+.btn.danger{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important}
+.stat{background:linear-gradient(180deg,#effcf5,#f8fffb);border-color:#c7e5d1}
+.stat strong{color:#075f32}
+.data-tools{background:linear-gradient(135deg,#fff 0%,#effcf5 100%)}
+.data-tools-note{color:#61756a}
+.history-dialog{border-color:#9cc8ad}
+.history-item{border-color:#cfe5d7;background:linear-gradient(135deg,#fff,#f5fbf7)}
+.developer{background:rgba(255,255,255,.82);border-color:rgba(8,113,63,.18)}
+.developer strong{background:linear-gradient(135deg,#075f32,#159653);-webkit-background-clip:text;background-clip:text;color:transparent}
+.toast{background:#075f32}
+
+/* Final professional typography and button system */
+html{font-size:16px}
+body{font-family:"Inter","Segoe UI","Noto Sans Tamil",Arial,sans-serif;letter-spacing:.01em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.hero h1{font-size:clamp(1.65rem,3vw,2.25rem);line-height:1.15;font-weight:800;letter-spacing:-.02em}
+.hero p{font-size:clamp(.9rem,1.5vw,1rem);line-height:1.5;font-weight:500}
+.card h2,.data-tools-title{font-size:1.05rem;line-height:1.3;font-weight:750;letter-spacing:-.01em}
+.field label{font-size:.84rem;line-height:1.35;font-weight:650;letter-spacing:.01em}
+input,select,textarea{font-family:inherit;font-size:.92rem;line-height:1.35;font-weight:500}
+input::placeholder,textarea::placeholder{font-weight:400;color:#809087}
+.btn,.data-btn,.lang button,.history-item-actions button{font-family:inherit;font-size:.86rem;line-height:1.2;font-weight:700;letter-spacing:.005em}
+.btn{min-height:42px;padding:10px 16px;border:1px solid transparent;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 2px 6px rgba(7,95,50,.08)}
+.btn:hover,.data-btn:hover,.history-item-actions button:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(7,95,50,.14)}
+.btn:active,.data-btn:active,.history-item-actions button:active{transform:translateY(0);box-shadow:0 2px 5px rgba(7,95,50,.10)}
+.btn.add,.data-btn.save{background:linear-gradient(135deg,#075f32,#08713f)!important;color:#fff!important;border-color:#075f32!important}
+.btn.whatsapp{background:#16a34a!important;color:#fff!important;border-color:#15803d!important}
+.btn.copy{background:#2563eb!important;color:#fff!important;border-color:#1d4ed8!important}
+.btn.primary{background:linear-gradient(135deg,#6d3fd1,#7c4fe0)!important;color:#fff!important;border-color:#6d3fd1!important}
+.btn.secondary,.data-btn.history{background:linear-gradient(135deg,#fff4d6,#ffedbd)!important;color:#735000!important;border-color:#e7c96d!important}
+.btn.danger{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important;border-color:#dc2626!important}
+/* Reset is intentionally red */
+.result-actions .btn.secondary{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important;border-color:#dc2626!important}
+.result-actions .btn.secondary:hover{background:linear-gradient(135deg,#dc2626,#b91c1c)!important}
+.top-actions .btn.secondary{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important;border-color:#dc2626!important}
+.top-actions .btn.secondary:hover{background:linear-gradient(135deg,#dc2626,#b91c1c)!important}
+.data-btn{min-height:42px;padding:10px 15px;border-radius:9px}
+.lang button{font-size:.82rem;min-height:36px}
+.stat strong{font-size:1.22rem;line-height:1.15;font-weight:800}
+.stat span{font-size:.78rem;line-height:1.3;font-weight:600}
+@media(max-width:700px){
+  .hero h1{font-size:1.45rem}
+  .hero p{font-size:.82rem}
+  .card h2,.data-tools-title{font-size:1rem}
+  .field label{font-size:.8rem}
+  input,select,textarea{font-size:.9rem}
+  .btn,.data-btn{min-height:44px;font-size:.84rem}
+}
+
+
+/* Usability improvements: location fallback, validation and mobile totals */
+.location-manual[hidden]{display:none!important}
+.location-manual{width:100%;margin-top:6px}
+/* Manual location entry remains available in code; set display:inline-block to show the fallback links again. */
+.manual-toggle{display:none;margin-top:5px;padding:3px 0;border:0;background:transparent;color:#166534;text-decoration:underline;font-size:.78rem;cursor:pointer}
+.location-status{min-height:1.2em;margin-top:8px;color:#64748b;font-size:.82rem}
+.location-status.error{color:#b91c1c}
+.location-status.success{color:#166534}
+.input-error{border-color:#dc2626!important;background:#fff7f7!important;box-shadow:0 0 0 2px rgba(220,38,38,.10)!important}
+.validation-summary{display:none;margin:10px 0 0;padding:10px 12px;border:1px solid #fecaca;border-radius:10px;background:#fff7f7;color:#991b1b;font-size:.88rem;line-height:1.45}
+.validation-summary.show{display:block}
+@media(max-width:700px){
+  .result-grid{position:sticky;bottom:6px;z-index:8;padding:8px;background:rgba(240,253,244,.97);border:1px solid #cfe5d7;border-radius:14px;box-shadow:0 5px 20px rgba(7,95,50,.14);backdrop-filter:blur(8px)}
+  .result-grid .stat{min-width:0;padding:8px 5px}
+  .result-grid .stat strong{font-size:clamp(.95rem,4vw,1.25rem);overflow-wrap:anywhere}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
@@ -1456,21 +1663,34 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 </div>
 <div class="field field-wide">
   <label data-en="Patta Number" data-ta="பட்டா எண்">Patta Number</label>
-  <input id="patta" maxlength="10" inputmode="numeric" pattern="[0-9]*" placeholder="Patta Number" data-placeholder-en="Patta Number" data-placeholder-ta="பட்டா எண்">
+  <input id="patta" maxlength="10" inputmode="numeric" pattern="[0-9]*" placeholder="Enter Patta Number" data-placeholder-en="Enter Patta Number" data-placeholder-ta="பட்டா எண்ணை உள்ளிடவும்">
 </div>
 <div class="field field-wide">
   <label data-en="District" data-ta="மாவட்டம்">District</label>
-  <input id="district" placeholder="District" data-placeholder-en="District" data-placeholder-ta="மாவட்டம்">
+  <select id="district" aria-label="District">
+    <option value="" data-en="Select District" data-ta="மாவட்டத்தைத் தேர்ந்தெடுக்கவும்">Select District</option>
+  </select>
+  <input id="districtManual" class="location-manual" type="text" placeholder="Enter district manually" data-placeholder-en="Enter district manually" data-placeholder-ta="மாவட்டத்தை கைமுறையாக உள்ளிடவும்" hidden>
+  <button type="button" class="manual-toggle" data-target="district" data-en="Can't find it? Enter manually" data-ta="கிடைக்கவில்லையா? கைமுறையாக உள்ளிடவும்">Can't find it? Enter manually</button>
 </div>
 <div class="field field-wide">
   <label data-en="Taluk" data-ta="வட்டம்">Taluk</label>
-  <input id="taluk" placeholder="Taluk" data-placeholder-en="Taluk" data-placeholder-ta="வட்டம்">
+  <select id="taluk" aria-label="Taluk" disabled>
+    <option value="" data-en="Select Taluk" data-ta="வட்டத்தைத் தேர்ந்தெடுக்கவும்">Select Taluk</option>
+  </select>
+  <input id="talukManual" class="location-manual" type="text" placeholder="Enter taluk manually" data-placeholder-en="Enter taluk manually" data-placeholder-ta="வட்டத்தை கைமுறையாக உள்ளிடவும்" hidden>
+  <button type="button" class="manual-toggle" data-target="taluk" data-en="Can't find it? Enter manually" data-ta="கிடைக்கவில்லையா? கைமுறையாக உள்ளிடவும்">Can't find it? Enter manually</button>
 </div>
 <div class="field field-wide">
   <label data-en="Revenue Village" data-ta="வருவாய் கிராமம்">Revenue Village</label>
-  <input id="village" placeholder="Revenue Village" data-placeholder-en="Revenue Village" data-placeholder-ta="வருவாய் கிராமம்">
+  <select id="village" aria-label="Revenue Village" disabled>
+    <option value="" data-en="Select Revenue Village" data-ta="வருவாய் கிராமத்தைத் தேர்ந்தெடுக்கவும்">Select Revenue Village</option>
+  </select>
+  <input id="villageManual" class="location-manual" type="text" placeholder="Enter village manually" data-placeholder-en="Enter village manually" data-placeholder-ta="வருவாய் கிராமத்தை கைமுறையாக உள்ளிடவும்" hidden>
+  <button type="button" class="manual-toggle" data-target="village" data-en="Can't find it? Enter manually" data-ta="கிடைக்கவில்லையா? கைமுறையாக உள்ளிடவும்">Can't find it? Enter manually</button>
 </div>
 </div>
+<div id="locationStatus" class="location-status" role="status" aria-live="polite"></div>
 </section>
 
 <section class="card">
@@ -1483,6 +1703,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 <button class="btn add" type="button" onclick="addRow()">+ Add Row</button>
 <button class="btn secondary" type="button" onclick="resetAll()">Reset</button>
 </div>
+<div id="validationSummary" class="validation-summary" role="alert" aria-live="polite"></div>
 </section>
 
 <section class="card">
@@ -1499,7 +1720,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 <div class="actions result-actions">
 <button class="btn copy" onclick="copyText()">Copy Result</button>
 <button class="btn whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
-<button class="btn primary" onclick="printPatta()">Print</button>
+<button class="btn primary" onclick="printPatta()">📄 <span data-en="PDF" data-ta="PDF">PDF</span></button>
 </div>
 </section>
 
@@ -1536,6 +1757,15 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 </div>
 </div>
 
+<section class="data-tools" aria-label="Save and history tools">
+  <div class="data-tools-title" data-en="Save & History" data-ta="சேமிப்பு மற்றும் வரலாறு">Save &amp; History</div>
+  <div class="data-tools-actions">
+    <button class="data-btn save" type="button" onclick="saveCalculation()">💾 <span data-en="Save" data-ta="சேமிக்க">Save</span></button>
+    <button class="data-btn history" type="button" onclick="openHistory()">📜 <span data-en="History" data-ta="வரலாறு">History</span></button>
+  </div>
+  <div class="data-tools-note" data-en="Saved calculations stay on this device only." data-ta="சேமிக்கப்பட்ட கணக்கீடுகள் இந்த சாதனத்தில் மட்டுமே இருக்கும்.">Saved calculations stay on this device only.</div>
+</section>
+
 <footer class="site-footer">
   <div class="footer-links">
     <a href="#about-us" onclick="openInfo('about-us');return false;" data-en="About Us" data-ta="எங்களை பற்றி">About Us</a>
@@ -1546,8 +1776,26 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
   </div>
   <div class="copyright" data-en="© 2026 Patta Area Calculator. For reference and calculation purposes only."
        data-ta="© 2026 Patta Area Calculator. குறிப்பு மற்றும் கணக்கீட்டு நோக்கங்களுக்காக மட்டுமே.">© 2026 Patta Area Calculator. For reference and calculation purposes only.</div>
-  <div class="developer">Developed by Arunmani <span class="footer-emoji" aria-hidden="true">🌿</span></div>
+  <div class="developer"><span class="developer-label" data-en="Developed by" data-ta="உருவாக்கியவர்">Developed by</span> <strong id="developerName">Arunmani Cidheswaran</strong> <span class="developer-emoji" aria-hidden="true">🌿</span></div>
+  <div class="visitor-counter" aria-live="polite">
+    <span class="visitor-icon" aria-hidden="true">👥</span>
+    <span data-en="Visitors:" data-ta="பார்வையாளர்கள்:">Visitors:</span>
+    <strong id="visitorCount">—</strong>
+  </div>
 </footer>
+
+<div class="info-modal" id="historyModal" aria-hidden="true">
+  <div class="info-backdrop" onclick="closeHistory()"></div>
+  <div class="info-dialog history-dialog" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+    <button class="info-close" type="button" onclick="closeHistory()" aria-label="Close">×</button>
+    <h3 id="historyTitle" data-en="Calculation History" data-ta="கணக்கீட்டு வரலாறு">Calculation History</h3>
+    <div id="historyList"></div>
+    <div class="history-footer-actions">
+      <button class="btn secondary" type="button" onclick="clearHistory()" data-en="Clear History" data-ta="வரலாற்றை அழிக்க">Clear History</button>
+      <button class="btn secondary" type="button" onclick="clearAllSavedData()" data-en="Delete All Saved Data" data-ta="சேமித்த அனைத்து தரவையும் நீக்க">Delete All Saved Data</button>
+    </div>
+  </div>
+</div>
 
 <div class="info-modal" id="infoModal" aria-hidden="true">
   <div class="info-backdrop" onclick="closeInfo()"></div>
@@ -1563,9 +1811,37 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 <script>
 const SQM_ACRE=4046.8564224,SQM_CENT=40.468564224,SQM_GROUND=222.967104,SQM_SQFT=10.7639104167;
 const CALCULATE_URL='https://arunmani07.github.io/Patta-area-calculator/';
+const VISITOR_COUNTER_KEY='patta_area_calculator_arunmani07_visits';
 let currentLang='en';
 
+async function updateVisitorCount(){
+  const el=document.getElementById('visitorCount');
+  if(!el) return;
+  const cachedKey=VISITOR_COUNTER_KEY+'_cached';
+  try{
+    const cached=Number(localStorage.getItem(cachedKey));
+    if(Number.isFinite(cached) && cached>0) el.textContent=cached.toLocaleString('en-IN');
+  }catch(e){}
+  try{
+    const response=await fetch('https://countapi.mileshilliard.com/api/v1/hit/'+encodeURIComponent(VISITOR_COUNTER_KEY),{cache:'no-store'});
+    if(!response.ok) throw new Error('Visitor counter request failed');
+    const data=await response.json();
+    const count=Number(data.value);
+    if(Number.isFinite(count)){
+      el.textContent=count.toLocaleString('en-IN');
+      try{localStorage.setItem(cachedKey,String(count));}catch(e){}
+    }else throw new Error('Invalid visitor count');
+  }catch(err){
+    if(el.textContent==='—') el.textContent='—';
+    console.warn('Visitor counter unavailable; showing cached value if available:',err);
+  }
+}
+
+
+
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+document.addEventListener('DOMContentLoaded',()=>{ updateVisitorCount(); addOwner(); addRow(); calculate(); });
 
 function addOwner(d={}){
   const list=document.getElementById('ownersList');
@@ -1603,12 +1879,20 @@ function addRow(d={}){
   <td><input class="sub subdivision-input" maxlength="6" value="${esc(d.sub||'')}" placeholder="Sub-Division" data-placeholder-en="Sub-Division" data-placeholder-ta="உட்பிரிவு"></td>
   <td><input class="ha" type="number" min="0" step="0.0001" value="${esc(d.ha??'')}" placeholder="Hectare" data-placeholder-en="Hectare" data-placeholder-ta="ஹெக்டேர்"></td>
   <td><input class="are" type="number" min="0" step="0.01" value="${esc(d.are??'')}" placeholder="Are" data-placeholder-en="Are" data-placeholder-ta="ஏர்"></td>
-  <td><div class="row-actions"><button type="button" class="btn danger row-remove" data-en="Remove" data-ta="நீக்கு">Remove</button></div></td>`;
+  <td><div class="row-actions"><button type="button" class="btn danger row-remove" data-en="Delete" data-ta="அழிக்க">Delete</button></div></td>`;
  const survey=tr.querySelector('.survey');
  survey.addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);calculate();});
  tr.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calculate));
  tr.querySelectorAll('select').forEach(el=>el.addEventListener('change',calculate));
- tr.querySelector('.row-remove').addEventListener('click',()=>{tr.remove();if(!document.querySelector('#rows tr'))addRow();calculate();});
+ tr.querySelector('.row-remove').addEventListener('click',()=>{
+   const total=document.querySelectorAll('#rows tr').length;
+   if(total===1){
+     tr.querySelectorAll('input').forEach(input=>input.value='');
+   }else{
+     tr.remove();
+   }
+   calculate();
+ });
  document.getElementById('rows').appendChild(tr);
  applyDynamicLanguage();
 }
@@ -1621,12 +1905,40 @@ function rowsData(){
 }
 function calculate(){
  const d=rowsData(),sqm=d.reduce((a,r)=>a+r.sqm,0);
+ validateInputs(false);
  document.getElementById('sAcre').textContent=(sqm/SQM_ACRE).toFixed(4);
  document.getElementById('sCent').textContent=(sqm/SQM_CENT).toFixed(2);
  document.getElementById('sGround').textContent=(sqm/SQM_GROUND).toFixed(2);
  document.getElementById('sSqft').textContent=(sqm*SQM_SQFT).toFixed(2);
  fillTable('resultRows',d);fillTable('printRows',d);syncPrint(d,sqm);
 }
+function validateInputs(showMessage=true){
+ const errors=[];
+ const patta=document.getElementById('patta');
+ patta.classList.remove('input-error');
+ if(patta.value.trim()&&!/^\d{1,10}$/.test(patta.value.trim())){errors.push(currentLang==='ta'?'பட்டா எண் 10 இலக்கங்களுக்குள் எண்களாக இருக்க வேண்டும்.':'Patta number must contain up to 10 digits.');patta.classList.add('input-error');}
+ document.querySelectorAll('#rows tr').forEach((row,index)=>{
+   const survey=row.querySelector('.survey'),ha=row.querySelector('.ha'),are=row.querySelector('.are');
+   [survey,ha,are].forEach(el=>el.classList.remove('input-error'));
+   if(survey.value.trim()&&!/^\d{1,4}$/.test(survey.value.trim())){errors.push((currentLang==='ta'?'வரிசை ':'Row ')+(index+1)+': '+(currentLang==='ta'?'சர்வே எண் 4 இலக்கங்களுக்குள் இருக்க வேண்டும்.':'survey number must contain up to 4 digits.'));survey.classList.add('input-error');}
+   [[ha,'Hectare','ஹெக்டேர்'],[are,'Are','ஏர்']].forEach(([el,en,ta])=>{
+     if(el.value!==''&&(!Number.isFinite(Number(el.value))||Number(el.value)<0)){errors.push((currentLang==='ta'?'வரிசை ':'Row ')+(index+1)+': '+(currentLang==='ta'?ta:en)+(currentLang==='ta'?' மதிப்பு 0 அல்லது அதற்கு மேல் இருக்க வேண்டும்.':' must be zero or greater.'));el.classList.add('input-error');}
+   });
+ });
+ const box=document.getElementById('validationSummary');
+ if(box){
+   if(errors.length&&showMessage){box.innerHTML=errors.map(esc).join('<br>');box.classList.add('show');}
+   else if(!errors.length){box.textContent='';box.classList.remove('show');}
+   else if(!showMessage){box.textContent='';box.classList.remove('show');}
+ }
+ return errors;
+}
+function validateBeforeAction(){
+ const errors=validateInputs(true);
+ if(errors.length){document.getElementById('validationSummary')?.scrollIntoView({behavior:'smooth',block:'center'});return false;}
+ return true;
+}
+
 function fillTable(id,d){
  const tb=document.getElementById(id);tb.innerHTML='';
  d.forEach(r=>{const tr=tb.insertRow();[r.survey,r.sub,r.whole,r.cent.toFixed(2),r.ground.toFixed(2),r.sqft.toFixed(2),r.sqm.toFixed(2)].forEach(v=>tr.insertCell().textContent=v);});
@@ -1635,7 +1947,7 @@ function syncPrint(d,sqm){
  const ids={District:'district',Taluk:'taluk',Village:'village',Patta:'patta'};
  Object.entries(ids).forEach(([p,id])=>{
    const el=document.getElementById('p'+p);
-   if(el) el.textContent=document.getElementById(id).value.trim()||'—';
+   if(el) el.textContent=(['district','taluk','village'].includes(id)?getLocationValue(id):document.getElementById(id).value).trim()||'—';
  });
  const po=document.getElementById('pOwners');
  if(po){
@@ -1660,22 +1972,58 @@ function syncPrint(d,sqm){
  document.getElementById('pSqm').textContent=sqm.toFixed(2);
 }
 
+function getBrandName(){return currentLang==='ta'?'அருண்மணி சித்தேஸ்வரன்':'Arunmani Cidheswaran';}
+
+function addBrandingToDocument(root,mode='pdf'){
+ const doc=root?.querySelector?.('.doc')||root;
+ if(!doc)return;
+ doc.querySelectorAll('.brand-watermark,.brand-footer').forEach(el=>el.remove());
+ doc.style.position='relative';
+ // Watermark is intentionally used only for the WhatsApp image.
+ if(mode==='image'){
+   const wm=document.createElement('div');
+   wm.className='brand-watermark';
+   wm.setAttribute('aria-hidden','true');
+   const rows=7, cols=5;
+   for(let r=0;r<rows;r++){
+     const row=document.createElement('div');
+     row.className='brand-watermark-row';
+     row.style.transform=`translateX(${r%2?-34:0}px)`;
+     for(let c=0;c<cols;c++){
+       const span=document.createElement('span');
+       span.textContent=getBrandName();
+       row.appendChild(span);
+     }
+     wm.appendChild(row);
+   }
+   doc.appendChild(wm);
+ }
+ const footer=document.createElement('div');
+ footer.className='brand-footer';
+ footer.innerHTML='<span>'+(currentLang==='ta'?'பட்டா பரப்பளவு கணிப்பான்':'Patta Area Calculator')+'</span><b>•</b><strong>'+getBrandName()+'</strong>';
+ doc.appendChild(footer);
+}
+
 function printPatta(){
+ if(!validateBeforeAction())return;
  calculate();
  const source=document.querySelector('.print-only');
  if(!source){alert('Print content is not available.');return;}
  const w=window.open('','_blank');
  if(!w){alert('Please allow pop-ups to print the statement.');return;}
+ const clone=source.cloneNode(true);
+ addBrandingToDocument(clone,'pdf');
  w.document.open();
- w.document.write('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Patta Area Calculator</title><style>'+printStyles()+'</style></head><body>'+source.outerHTML+'</body></html>');
+ w.document.write('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Patta Area Calculator - PDF</title><style>'+printStyles()+'</style></head><body>'+clone.outerHTML+'</body></html>');
  w.document.close();
  setTimeout(()=>{w.focus();w.print();},300);
 }
 
 
-function printStyles(){return `@page{size:A4 portrait;margin:12mm}*{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;color:#1f2937;font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-only{display:block;width:100%}.doc{width:100%;min-height:205mm;border:1px solid #d1d5db;border-radius:12px;overflow:hidden;background:#fff}.doc-title{background:#166534;color:#fff;padding:22px 20px;text-align:center}.doc-title h2{margin:0;color:#fff;font-size:22px;line-height:1.2;font-weight:800;letter-spacing:.5px}.doc-section-label{margin:16px 18px 8px;color:#166534;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.doc-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 22px;padding:4px 18px 8px}.doc-meta>div{padding:4px 0}.doc-meta b{color:#64748b;font-size:9px;margin-right:4px}.doc-meta span{color:#111827;font-size:10px;font-weight:700}.print-owner-heading{margin:5px 18px 3px;color:#166534;font-size:10px;font-weight:800;letter-spacing:1px}.print-owners{margin:0 18px 8px;display:flex;flex-direction:column;gap:3px}.print-owner-row{font-size:10px;padding:3px 0;border-bottom:1px solid #e5e7eb}.print-owner-row b{display:inline-block;width:20px;color:#64748b}.doc>table{width:calc(100% - 36px);margin:0 18px;border-collapse:collapse;table-layout:fixed;font-size:8px}.doc>table th{background:#166534;color:#fff;border:1px solid #14532d;padding:6px 3px;text-align:center;font-weight:800;white-space:nowrap;text-transform:uppercase;overflow:hidden}.doc>table td{border:1px solid #d1d5db;padding:6px 3px;text-align:center;font-size:9px;overflow:hidden;white-space:nowrap}.doc>table tbody tr:nth-child(even) td{background:#f0fdf4}.doc-total-section{margin:20px 18px 0;padding:12px;border:2px solid #166534;border-radius:10px;background:#ecfdf5}.doc-total-heading{text-align:center;color:#14532d;font-size:11px;font-weight:800;letter-spacing:.8px;margin-bottom:9px}.doc-total-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.total-box{background:#fff;border:1px solid #86efac;border-radius:7px;min-height:58px;padding:8px 5px;text-align:center;display:flex;flex-direction:column;justify-content:center}.total-label{color:#64748b;font-size:8px;font-weight:800;margin-bottom:5px}.total-box strong{color:#14532d;font-size:13px}.doc-foot{margin:18px;padding:9px 11px;border-left:4px solid #f59e0b;background:#fffbeb;color:#713f12;border-radius:5px;font-size:8.5px;line-height:1.4}@media print{body{background:#fff}}`;}
+function printStyles(){return `@page{size:A4 portrait;margin:12mm}*{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;color:#1f2937;font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-only{display:block;width:100%}.doc{width:100%;min-height:205mm;border:1px solid #d1d5db;border-radius:12px;overflow:hidden;background:#fff;position:relative}.brand-watermark{display:none!important}.brand-watermark-row{display:flex;gap:34px;white-space:nowrap;height:28mm;align-items:center}.brand-watermark-row span{font-size:18px;font-weight:800;letter-spacing:.6px;color:#16834a}.brand-footer{position:relative;z-index:3;margin:8px 18px 12px;padding:5px 0 0;border-top:1px solid #cfe4d4;text-align:center;color:#5d8068;font-size:8.5px;letter-spacing:.2px}.brand-footer b{margin:0 5px;color:#83a68d}.brand-footer strong{color:#287046}.doc>*:not(.brand-watermark){position:relative;z-index:2}.doc-title{background:#166534;color:#fff;padding:22px 20px;text-align:center}.doc-title h2{margin:0;color:#fff;font-size:22px;line-height:1.2;font-weight:800;letter-spacing:.5px}.doc-section-label{margin:16px 18px 8px;color:#166534;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.doc-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 22px;padding:4px 18px 8px}.doc-meta>div{padding:4px 0}.doc-meta b{color:#64748b;font-size:9px;margin-right:4px}.doc-meta span{color:#111827;font-size:10px;font-weight:700}.print-owner-heading{margin:5px 18px 3px;color:#166534;font-size:10px;font-weight:800;letter-spacing:1px}.print-owners{margin:0 18px 8px;display:flex;flex-direction:column;gap:3px}.print-owner-row{font-size:10px;padding:3px 0;border-bottom:1px solid #e5e7eb}.print-owner-row b{display:inline-block;width:20px;color:#64748b}.doc>table{width:calc(100% - 36px);margin:0 18px;border-collapse:collapse;table-layout:fixed;font-size:8px}.doc>table th{background:#166534;color:#fff;border:1px solid #14532d;padding:6px 3px;text-align:center;font-weight:800;white-space:nowrap;text-transform:uppercase;overflow:hidden}.doc>table td{border:1px solid #d1d5db;padding:6px 3px;text-align:center;font-size:9px;overflow:hidden;white-space:nowrap}.doc>table tbody tr:nth-child(even) td{background:#f0fdf4}.doc-total-section{margin:20px 18px 0;padding:12px;border:2px solid #166534;border-radius:10px;background:#ecfdf5}.doc-total-heading{text-align:center;color:#14532d;font-size:11px;font-weight:800;letter-spacing:.8px;margin-bottom:9px}.doc-total-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.total-box{background:#fff;border:1px solid #86efac;border-radius:7px;min-height:58px;padding:8px 5px;text-align:center;display:flex;flex-direction:column;justify-content:center}.total-label{color:#64748b;font-size:8px;font-weight:800;margin-bottom:5px}.total-box strong{color:#14532d;font-size:13px}.doc-foot{margin:18px;padding:9px 11px;border-left:4px solid #f59e0b;background:#fffbeb;color:#713f12;border-radius:5px;font-size:8.5px;line-height:1.4}@media print{body{background:#fff}}`;}
 
 async function copyText(){
+ if(!validateBeforeAction())return;
  const text=getShareText();
  const success=()=>showToast(currentLang==='ta'?'நகலெடுக்கப்பட்டது!':'Copied!');
  try{
@@ -1704,27 +2052,208 @@ async function copyText(){
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
 function updatePlaceholders(lang){document.querySelectorAll('[data-placeholder-en]').forEach(el=>el.placeholder=lang==='ta'?(el.getAttribute('data-placeholder-ta')||el.getAttribute('data-placeholder-en')):el.getAttribute('data-placeholder-en'));}
+const TNGIS_API_BASE='https://tngis.tnega.org/generic_api/v1/getAdminDropDown';
+const TN_LOCATION_DATA_URL='https://raw.githubusercontent.com/mchittineni/india-village-finder/main/tamil_nadu/web/data/regions.json';
+const TN_LOCATION_NATIVE_URL='https://raw.githubusercontent.com/mchittineni/india-village-finder/main/tamil_nadu/web/data/regions_native.json';
+const TN_VILLAGES_URL='https://raw.githubusercontent.com/mchittineni/india-village-finder/main/tamil_nadu/web/data/villages.json';
+const TN_VILLAGE_NATIVE_URL='https://raw.githubusercontent.com/mchittineni/india-village-finder/main/tamil_nadu/web/data/names_translit.json';
+const TN_DISTRICTS=[
+ ['610','Ariyalur','அரியலூர்'],['730','Chengalpattu','செங்கல்பட்டு'],['568','Chennai','சென்னை'],['569','Coimbatore','கோயம்புத்தூர்'],
+ ['570','Cuddalore','கடலூர்'],['571','Dharmapuri','தர்மபுரி'],['572','Dindigul','திண்டுக்கல்'],['573','Erode','ஈரோடு'],
+ ['729','Kallakurichi','கள்ளக்குறிச்சி'],['574','Kancheepuram','காஞ்சிபுரம்'],['575','Kanniyakumari','கன்னியாகுமரி'],['576','Karur','கரூர்'],
+ ['577','Krishnagiri','கிருஷ்ணகிரி'],['578','Madurai','மதுரை'],['735','Mayiladuthurai','மயிலாடுதுறை'],['579','Nagapattinam','நாகப்பட்டினம்'],
+ ['580','Namakkal','நாமக்கல்'],['581','Perambalur','பெரம்பலூர்'],['582','Pudukkottai','புதுக்கோட்டை'],['583','Ramanathapuram','ராமநாதபுரம்'],
+ ['731','Ranipet','ராணிப்பேட்டை'],['584','Salem','சேலம்'],['585','Sivaganga','சிவகங்கை'],['733','Tenkasi','தென்காசி'],
+ ['586','Thanjavur','தஞ்சாவூர்'],['588','Theni','தேனி'],['589','Thiruvallur','திருவள்ளூர்'],['590','Thiruvarur','திருவாரூர்'],
+ ['594','Thoothukkudi','தூத்துக்குடி'],['591','Tiruchirappalli','திருச்சிராப்பள்ளி'],['592','Tirunelveli','திருநெல்வேலி'],['732','Tirupathur','திருப்பத்தூர்'],
+ ['634','Tiruppur','திருப்பூர்'],['593','Tiruvannamalai','திருவண்ணாமலை'],['587','The Nilgiris','நீலகிரி'],['595','Vellore','வேலூர்'],
+ ['596','Viluppuram','விழுப்புரம்'],['597','Virudhunagar','விருதுநகர்']
+];
+const TN_LOCATION={districts:[],taluksByDistrict:new Map(),villagesByTaluk:new Map(),nativeDistricts:{},nativeTaluks:{},nativeVillages:{},ready:false};
+function normalizeTamilLocationName(ta){
+  if(!ta)return ta;
+  return String(ta).replace(/சலேம்/g,'சேலம்');
+}
+function locationOptionText(en,ta){return currentLang==='ta'?(normalizeTamilLocationName(ta)||en):en;}
+function setSelectOptions(select,items,placeholderEn,placeholderTa){
+  const opts=[`<option value="" data-en="${esc(placeholderEn)}" data-ta="${esc(placeholderTa)}">${esc(currentLang==='ta'?placeholderTa:placeholderEn)}</option>`];
+  items.forEach(item=>opts.push(`<option value="${esc(item.name)}" data-code="${esc(item.code)}" data-en="${esc(item.name)}" data-ta="${esc(normalizeTamilLocationName(item.nameTa||''))}">${esc(locationOptionText(item.name,item.nameTa))}</option>`));
+  select.innerHTML=opts.join('');
+}
+function updateSelectDisplay(select){
+  if(!select)return;
+  [...select.options].forEach(o=>{if(o.dataset.en)o.textContent=o.value?(currentLang==='ta'?(o.dataset.ta||o.dataset.en):o.dataset.en):(currentLang==='ta'?o.dataset.ta:o.dataset.en);});
+}
+async function tngisRequest(payload){
+  const attempts=[
+    {body:new URLSearchParams(payload).toString(),headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8','X-APP-NAME':'PattaAreaCalculator'}},
+    {body:JSON.stringify(payload),headers:{'Content-Type':'application/json','X-APP-NAME':'PattaAreaCalculator'}},
+    {body:new URLSearchParams(payload).toString(),headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}}
+  ];
+  for(const attempt of attempts){
+    try{
+      const response=await fetch(TNGIS_API_BASE,{method:'POST',headers:attempt.headers,body:attempt.body});
+      if(!response.ok)continue;
+      const data=await response.json();
+      const first=Array.isArray(data)?data[0]:data;
+      if(first&&first.success===1&&Array.isArray(first.data))return first.data;
+    }catch(e){}
+  }
+  return [];
+}
+async function loadLocationDataset(){
+  if(TN_LOCATION.ready)return TN_LOCATION;
+  const fallback=TN_DISTRICTS.map(x=>({code:x[0],name:x[1],nameTa:x[2]}));
+  TN_LOCATION.districts=fallback;
+  fallback.forEach(x=>TN_LOCATION.taluksByDistrict.set(x.code,[]));
+  try{
+    const results=await Promise.allSettled([
+      fetch(TN_LOCATION_DATA_URL,{cache:'force-cache'}).then(r=>r.ok?r.json():null),
+      fetch(TN_LOCATION_NATIVE_URL,{cache:'force-cache'}).then(r=>r.ok?r.json():null),
+      fetch(TN_VILLAGES_URL,{cache:'force-cache'}).then(r=>r.ok?r.json():null),
+      fetch(TN_VILLAGE_NATIVE_URL,{cache:'force-cache'}).then(r=>r.ok?r.json():null)
+    ]);
+    const value=i=>results[i]?.status==='fulfilled'?results[i].value:null;
+    const regions=value(0), native=value(1), villages=value(2), nativeVillages=value(3);
+    if(native?.districts)TN_LOCATION.nativeDistricts=native.districts;
+    if(native?.mandals)TN_LOCATION.nativeTaluks=native.mandals;
+    if(nativeVillages&&typeof nativeVillages==='object')TN_LOCATION.nativeVillages=nativeVillages;
+    if(regions&&Array.isArray(regions.districts)&&Array.isArray(regions.mandals)){
+      const nativeDistricts=TN_LOCATION.nativeDistricts||{};
+      const nativeTaluks=TN_LOCATION.nativeTaluks||{};
+      const districts=regions.districts.map(d=>({code:String(d.c),name:d.n,nameTa:nativeDistricts[String(d.c)]||''}));
+      TN_LOCATION.districts=districts;
+      TN_LOCATION.taluksByDistrict=new Map();
+      regions.mandals.forEach(m=>{
+        const d=regions.districts[m.d];
+        if(!d)return;
+        const key=String(d.c);
+        if(!TN_LOCATION.taluksByDistrict.has(key))TN_LOCATION.taluksByDistrict.set(key,[]);
+        TN_LOCATION.taluksByDistrict.get(key).push({code:String(m.c),name:m.n,nameTa:nativeTaluks[String(m.c)]||''});
+      });
+      TN_LOCATION.taluksByDistrict.forEach(list=>list.sort((a,b)=>a.name.localeCompare(b.name)));
+      if(villages&&Array.isArray(villages.rows)){
+        TN_LOCATION.villagesByTaluk=new Map();
+        villages.rows.forEach(row=>{
+          const name=row[0], mandalIndex=row[1], code=String(row[2]);
+          const mandal=regions.mandals[mandalIndex];
+          if(!mandal)return;
+          const talukCode=String(mandal.c);
+          if(!TN_LOCATION.villagesByTaluk.has(talukCode))TN_LOCATION.villagesByTaluk.set(talukCode,[]);
+          TN_LOCATION.villagesByTaluk.get(talukCode).push({code,name,nameTa:TN_LOCATION.nativeVillages[code]||''});
+        });
+        TN_LOCATION.villagesByTaluk.forEach(list=>list.sort((a,b)=>a.name.localeCompare(b.name)));
+      }
+    }
+  }catch(e){
+    console.warn('Bundled/live Tamil Nadu location dataset unavailable; TNGIS will be used as fallback.',e);
+  }
+  TN_LOCATION.ready=true;
+  return TN_LOCATION;
+}
+async function loadDistricts(){
+  const district=document.getElementById('district');
+  setLocationStatus(currentLang==='ta'?'மாவட்டப் பட்டியல் ஏற்றப்படுகிறது…':'Loading district list…');
+  try{
+    const data=await loadLocationDataset();
+    const items=data.districts?.length?data.districts:TN_DISTRICTS.map(([code,name,nameTa])=>({code,name,nameTa}));
+    setSelectOptions(district,items,'Select District','மாவட்டத்தைத் தேர்ந்தெடுக்கவும்');
+    district.disabled=false;
+    setLocationStatus(items.length?(currentLang==='ta'?'மாவட்டத்தைத் தேர்ந்தெடுக்கவும் அல்லது கிடைக்காவிட்டால் கைமுறையாக உள்ளிடவும்':'Choose a district, or enter it manually if it is not listed.'):(currentLang==='ta'?'பட்டியலை ஏற்ற முடியவில்லை. கைமுறையாக உள்ளிடவும்.':'Could not load the list. You can enter the location manually.'),items.length?'':'error');
+  }catch(e){
+    setSelectOptions(district,TN_DISTRICTS.map(([code,name,nameTa])=>({code,name,nameTa})),'Select District','மாவட்டத்தைத் தேர்ந்தெடுக்கவும்');
+    district.disabled=false;setLocationStatus(currentLang==='ta'?'சில இட விவரங்கள் கிடைக்காமல் இருக்கலாம். கைமுறையாக உள்ளிடலாம்.':'Some location data may be unavailable. Manual entry is available.','error');
+  }
+}
+async function loadTaluks(){
+  const district=document.getElementById('district');
+  const taluk=document.getElementById('taluk');
+  const village=document.getElementById('village');
+  const districtOption=district.selectedOptions[0];
+  const districtCode=districtOption?.dataset.code||'';
+  setSelectOptions(taluk,[],'Select Taluk','வட்டத்தைத் தேர்ந்தெடுக்கவும்');
+  setSelectOptions(village,[],'Select Revenue Village','வருவாய் கிராமத்தைத் தேர்ந்தெடுக்கவும்');
+  taluk.disabled=true; village.disabled=true;
+  if(!districtCode)return;
+  const data=await loadLocationDataset();
+  let items=data.taluksByDistrict.get(districtCode)||[];
+  if(!items.length){
+    try{const api=await tngisRequest({case:'taluk',district:districtCode,filter_code:'lgd_code'});items=api.map(x=>({code:String(x.taluk_code),name:x.taluk_name,nameTa:data.nativeTaluks[String(x.taluk_code)]||''}));}catch(e){setLocationStatus(currentLang==='ta'?'வட்டப் பட்டியல் கிடைக்கவில்லை. கைமுறையாக உள்ளிடவும்.':'Taluk list unavailable. Enter the taluk manually.','error');}
+  }
+  setSelectOptions(taluk,items,'Select Taluk','வட்டத்தைத் தேர்ந்தெடுக்கவும்');
+  taluk.disabled=false;
+}
+async function loadVillages(){
+  const district=document.getElementById('district');
+  const taluk=document.getElementById('taluk');
+  const village=document.getElementById('village');
+  const districtCode=district.selectedOptions[0]?.dataset.code||'';
+  const talukCode=taluk.selectedOptions[0]?.dataset.code||'';
+  setSelectOptions(village,[],'Select Revenue Village','வருவாய் கிராமத்தைத் தேர்ந்தெடுக்கவும்');
+  village.disabled=true;
+  if(!districtCode||!talukCode)return;
+  const data=await loadLocationDataset();
+  let items=data.villagesByTaluk.get(talukCode)||[];
+  if(!items.length){
+    try{const api=await tngisRequest({case:'village',district:districtCode,taluk:talukCode,filter_code:'lgd_code'});items=api.map(x=>({code:String(x.village_code),name:x.village_name,nameTa:data.nativeVillages[String(x.village_code)]||''}));}catch(e){setLocationStatus(currentLang==='ta'?'வருவாய் கிராமப் பட்டியல் கிடைக்கவில்லை. கைமுறையாக உள்ளிடவும்.':'Revenue village list unavailable. Enter the village manually.','error');}
+  }
+  setSelectOptions(village,items,'Select Revenue Village','வருவாய் கிராமத்தைத் தேர்ந்தெடுக்கவும்');
+  village.disabled=false;
+}
 function applyDynamicLanguage(){
  const lang=currentLang;
  document.querySelectorAll('#rows [data-placeholder-en],#ownersList [data-placeholder-en]').forEach(el=>el.placeholder=lang==='ta'?(el.getAttribute('data-placeholder-ta')||el.getAttribute('data-placeholder-en')):el.getAttribute('data-placeholder-en'));
  document.querySelectorAll('#rows option[data-en]').forEach(el=>el.textContent=lang==='ta'?el.dataset.ta:el.dataset.en);
+ updateSelectDisplay(document.getElementById('district')); updateSelectDisplay(document.getElementById('taluk')); updateSelectDisplay(document.getElementById('village'));
  document.querySelectorAll('#rows [data-en],#ownersList [data-en]').forEach(el=>{if(el.tagName!=='OPTION')el.textContent=lang==='ta'?el.dataset.ta:el.dataset.en;});
  updateOwnerNumbers();
 }
 function setLang(l){
  currentLang=l;document.documentElement.lang=l;
  document.querySelectorAll('[data-en]').forEach(e=>e.textContent=e.dataset[l]);
+ const developerName=document.getElementById('developerName');
+ if(developerName)developerName.textContent=l==='ta'?'அருண்மணி சித்தேஸ்வரன்':'Arunmani Cidheswaran';
  updatePlaceholders(l);applyDynamicLanguage();
+ document.querySelectorAll('.manual-toggle').forEach(b=>{const id=b.dataset.target,m=document.getElementById(id+'Manual');b.textContent=m&&!m.hidden?(l==='ta'?'பட்டியலிலிருந்து தேர்ந்தெடுக்கவும்':'Choose from list'):(l==='ta'?'கிடைக்கவில்லையா? கைமுறையாக உள்ளிடவும்':"Can't find it? Enter manually");});
  enBtn.classList.toggle('active',l==='en');taBtn.classList.toggle('active',l==='ta');calculate();
+}
+function getLocationValue(id){
+ const manual=document.getElementById(id+'Manual');
+ const select=document.getElementById(id);
+ return manual&&!manual.hidden?manual.value.trim():(select?.value||'');
+}
+function setLocationStatus(message,type=''){
+ const el=document.getElementById('locationStatus');if(!el)return;
+ el.textContent=message;el.className='location-status'+(type?' '+type:'');
+}
+function initManualLocationFallbacks(){
+ document.querySelectorAll('.manual-toggle').forEach(button=>button.addEventListener('click',()=>{
+   const id=button.dataset.target,select=document.getElementById(id),manual=document.getElementById(id+'Manual');
+   if(!select||!manual)return;
+   const entering=manual.hidden;
+   manual.hidden=!entering;select.hidden=entering;
+   if(entering){manual.value=select.value||'';manual.focus();button.textContent=currentLang==='ta'?'பட்டியலிலிருந்து தேர்ந்தெடுக்கவும்':'Choose from list';}
+   else{select.value='';button.textContent=currentLang==='ta'?'கிடைக்கவில்லையா? கைமுறையாக உள்ளிடவும்':"Can't find it? Enter manually";}
+   if(id==='district'&&entering){document.getElementById('taluk').value='';document.getElementById('village').value='';}
+   calculate();
+ }));
+ ['district','taluk','village'].forEach(id=>document.getElementById(id+'Manual')?.addEventListener('input',calculate));
+}
+
+function selectedLocationName(id){
+  const select=document.getElementById(id);
+  const option=select?.selectedOptions?.[0];
+  const manual=document.getElementById(id+'Manual');
+  return (manual&&!manual.hidden?manual.value.trim():(option?.textContent||'').trim())||'—';
 }
 function getShareText(){
   const d=rowsData();
   const sqm=d.reduce((a,r)=>a+r.sqm,0);
   const owners=ownersData();
   const patta=document.getElementById('patta').value.trim()||'—';
-  const district=document.getElementById('district').value.trim()||'—';
-  const taluk=document.getElementById('taluk').value.trim()||'—';
-  const village=document.getElementById('village').value.trim()||'—';
+  const district=selectedLocationName('district');
+  const taluk=selectedLocationName('taluk');
+  const village=selectedLocationName('village');
   const ownerText=owners.length
     ? owners.map((o,i)=>`${i+1}. ${[o.name,o.surname].filter(Boolean).join(' ')}`).join('\n')
     : '—';
@@ -1733,16 +2262,17 @@ function getShareText(){
     return `🌾 *பட்டா பரப்பளவு கணிப்பான்*\n\n📋 பட்டா எண்: ${patta}\n👥 உரிமையாளர்கள்:\n${ownerText}\n📍 மாவட்டம்: ${district}\n🏛️ வட்டம்: ${taluk}\n🏘️ வருவாய் கிராமம்: ${village}\n\n━━━━━━━━━━━━━━━━━━━━\n\n📐 *சர்வே விவரங்கள்*\n\n${surveyText}\n\n━━━━━━━━━━━━━━━━━━━━\n📊 *மொத்த நிலம்*\n\n🔢 மொத்த சர்வே எண்கள்: ${d.length}\n🌱 ஏக்கர்: ${(sqm/SQM_ACRE).toFixed(4)}\n📏 சென்ட்: ${(sqm/SQM_CENT).toFixed(2)}\n🏠 கிரவுண்ட்: ${(sqm/SQM_GROUND).toFixed(2)}\n📐 சதுர அடி: ${(sqm*SQM_SQFT).toFixed(2)}\n📏 சதுர மீட்டர்: ${sqm.toFixed(2)}\n\n━━━━━━━━━━━━━━━━━━━━\n\n🔗 *உங்கள் நிலப்பரப்பை கணக்கிட:*\n${CALCULATE_URL}`;
   }
   const surveyText=d.map((r,i)=>`${i+1}) Survey/Sub : ${r.survey} / ${r.sub}\nArea:\n         • ${r.whole} Acre\n         • ${r.cent.toFixed(2)} Cent\n         • ${r.ground.toFixed(2)} Ground\n         • ${r.sqft.toFixed(2)} Sq.Ft\n         • ${r.sqm.toFixed(2)} Sq.M`).join('\n\n');
-  return `🌾 *PATTA AREA CALCULATOR*\n\n📋 Patta No: ${patta}\n👥 Owners:\n${ownerText}\n📍 District: ${district}\n🏛️ Taluk: ${taluk}\n🏘️ Revenue Village: ${village}\n\n━━━━━━━━━━━━━━━━━━━━\n\n📐 *SURVEY DETAILS*\n\n${surveyText}\n\n━━━━━━━━━━━━━━━━━━━━\n📊 *TOTAL LAND*\n\n🔢 Total Survey number: ${d.length}\n🌱 Acre: ${(sqm/SQM_ACRE).toFixed(4)}\n📏 Cent: ${(sqm/SQM_CENT).toFixed(2)}\n🏠 Ground: ${(sqm/SQM_GROUND).toFixed(2)}\n📐 Sq.Ft: ${(sqm*SQM_SQFT).toFixed(2)}\n📏 Sq.M: ${sqm.toFixed(2)}\n\n━━━━━━━━━━━━━━━━━━━━\n\n🔗 *Calculate yours area at:*\n${CALCULATE_URL}`;
+  return `🌾 *PATTA AREA CALCULATOR*\n\n📋 Patta No: ${patta}\n👥 Owners:\n${ownerText}\n📍 District: ${district}\n🏛️ Taluk: ${taluk}\n🏘️ Revenue Village: ${village}\n\n━━━━━━━━━━━━━━━━━━━━\n\n📐 *SURVEY DETAILS*\n\n${surveyText}\n\n━━━━━━━━━━━━━━━━━━━━\n📊 *TOTAL LAND*\n\n🔢 Total Survey number: ${d.length}\n🌱 Acre: ${(sqm/SQM_ACRE).toFixed(4)}\n📏 Cent: ${(sqm/SQM_CENT).toFixed(2)}\n🏠 Ground: ${(sqm/SQM_GROUND).toFixed(2)}\n📐 Sq.Ft: ${(sqm*SQM_SQFT).toFixed(2)}\n📏 Sq.M: ${sqm.toFixed(2)}\n\n━━━━━━━━━━━━━━━━━━━━\n\n🌿 *Calculate Your Land Area*\nClick link 👇🏻\n ${CALCULATE_URL}`;
 }
 async function shareWhatsApp(){
+ if(!validateBeforeAction())return;
   calculate();
   try{
     if(typeof html2canvas==='function'){
       const blob=await createPattaImageBlob();
       if(blob){
         const file=new File([blob],'patta-area-details.png',{type:'image/png'});
-        const shareData={files:[file],title:'Patta Area Calculator',text:'Calculate yours area at: https://arunmani07.github.io/Patta-area-calculator/'};
+        const shareData={files:[file],title:'Patta Area Calculator',text:'🌿 *Calculate Your Land Area*\nClick link 👇🏻\n https://arunmani07.github.io/Patta-area-calculator/'};
         if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
           await navigator.share(shareData); return;
         }
@@ -1752,11 +2282,126 @@ async function shareWhatsApp(){
       }
     }
   }catch(e){ console.warn('Image share fallback:',e); }
-  window.open('https://wa.me/?text='+encodeURIComponent('Calculate yours area at: https://arunmani07.github.io/Patta-area-calculator/'),'_blank');
+  window.open('https://wa.me/?text='+encodeURIComponent('🌿 *Calculate Your Land Area*\nClick link 👇🏻\n https://arunmani07.github.io/Patta-area-calculator/'),'_blank');
 }
+const SAVE_KEY='patta_area_calculator_saved_v1';
+const HISTORY_KEY='patta_area_calculator_history_v1';
+function getFormState(){
+  return {
+    version:1,
+    savedAt:new Date().toISOString(),
+    owners:ownersData(),
+    patta:document.getElementById('patta').value,
+    district:getLocationValue('district'),
+    taluk:getLocationValue('taluk'),
+    village:getLocationValue('village'),
+    rows:[...document.querySelectorAll('#rows tr')].map(r=>({
+      survey:r.querySelector('.survey').value,
+      sub:r.querySelector('.sub').value,
+      ha:r.querySelector('.ha').value,
+      are:r.querySelector('.are').value
+    })),
+    lang:currentLang
+  };
+}
+async function applyFormState(data){
+  if(!data)return;
+  document.getElementById('patta').value=data.patta||'';
+  const ol=document.getElementById('ownersList'); ol.innerHTML='';
+  const owners=Array.isArray(data.owners)&&data.owners.length?data.owners:[{}];
+  owners.forEach(o=>addOwner(o));
+  const rl=document.getElementById('rows'); rl.innerHTML='';
+  const rows=Array.isArray(data.rows)&&data.rows.length?data.rows:[{}];
+  rows.forEach(r=>addRow(r));
+  setLang(data.lang==='ta'?'ta':'en');
+  await loadDistricts();
+  const restoreLocation=async(id,value,loadChildren)=>{
+    const select=document.getElementById(id),manual=document.getElementById(id+'Manual');
+    if(manual){manual.value='';manual.hidden=true;}
+    select.hidden=false;
+    select.value=value||'';
+    const matched=!!value&&[...select.options].some(option=>option.value===value);
+    if(value&&!matched&&manual){
+      select.hidden=true;manual.hidden=false;manual.value=value;
+    }
+    if(loadChildren)await loadChildren();
+  };
+  await restoreLocation('district',data.district,loadTaluks);
+  await restoreLocation('taluk',data.taluk,loadVillages);
+  await restoreLocation('village',data.village);
+  updateSelectDisplay(document.getElementById('district')); updateSelectDisplay(document.getElementById('taluk')); updateSelectDisplay(document.getElementById('village'));
+  calculate();
+}
+function readHistory(){
+  try{const raw=localStorage.getItem(HISTORY_KEY);const list=raw?JSON.parse(raw):[];return Array.isArray(list)?list:[];}catch(e){return []}
+}
+function writeHistory(list){
+  try{localStorage.setItem(HISTORY_KEY,JSON.stringify(list));return true}catch(e){return false}
+}
+function saveCalculation(){
+  if(!validateBeforeAction())return;
+  const data=getFormState();
+  const patta=data.patta.trim()||'—';
+  const owner=data.owners.map(o=>[o.name,o.surname].filter(Boolean).join(' ')).filter(Boolean).join(', ')||'—';
+  const sqm=rowsData().reduce((a,r)=>a+r.sqm,0);
+  data.title=`Patta ${patta}`;
+  data.ownerLabel=owner;
+  data.totalAcre=(sqm/SQM_ACRE).toFixed(4);
+  data.id=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);
+  try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){showToast(currentLang==='ta'?'சேமிக்க முடியவில்லை':'Unable to save on this device');return;}
+  const history=readHistory();
+  history.unshift(data);
+  if(writeHistory(history)){
+    showToast(currentLang==='ta'?'சேமிக்கப்பட்டது!':'Calculation saved!');
+  }else{
+    showToast(currentLang==='ta'?'சேமிக்கப்பட்டது!':'Saved on this device!');
+  }
+}
+function openHistory(){
+  const modal=document.getElementById('historyModal');
+  const listEl=document.getElementById('historyList');
+  const history=readHistory();
+  if(!history.length){
+    listEl.innerHTML='<div class="history-empty">'+esc(currentLang==='ta'?'இன்னும் சேமித்த கணக்கீடுகள் இல்லை.':'No saved calculations yet.')+'</div>';
+  }else{
+    listEl.innerHTML=history.map((item,index)=>{
+      const date=item.savedAt?new Date(item.savedAt).toLocaleString(currentLang==='ta'?'ta-IN':'en-IN',{dateStyle:'medium',timeStyle:'short'}):'—';
+      return `<div class="history-item"><div class="history-item-title">📋 ${esc(item.title||'Patta Calculation')}</div><div class="history-item-meta">${esc(currentLang==='ta'?'உரிமையாளர்: ':'Owner: ')}${esc(item.ownerLabel||'—')}<br>${esc(currentLang==='ta'?'மொத்த ஏக்கர்: ':'Total Acre: ')}${esc(item.totalAcre||'0.0000')}<br>🕒 ${esc(date)}</div><div class="history-item-actions"><button class="history-load" type="button" onclick="loadHistoryItem(${index})">📂 ${currentLang==='ta'?'ஏற்றுக':'Load'}</button><button type="button" onclick="deleteHistoryItem(${index})">🗑️ ${currentLang==='ta'?'அழிக்க':'Delete'}</button></div></div>`;
+    }).join('');
+  }
+  modal.classList.add('show');modal.setAttribute('aria-hidden','false');
+}
+function loadHistoryItem(index){
+  const history=readHistory();
+  if(!history[index])return;
+  applyFormState(history[index]);
+  localStorage.setItem(SAVE_KEY,JSON.stringify(history[index]));
+  closeHistory();
+  showToast(currentLang==='ta'?'கணக்கீடு ஏற்றப்பட்டது':'Calculation loaded');
+}
+function deleteHistoryItem(index){
+  const history=readHistory();
+  if(!history[index])return;
+  history.splice(index,1);writeHistory(history);openHistory();
+}
+function clearHistory(){
+  if(!confirm(currentLang==='ta'?'அனைத்து வரலாற்றையும் அழிக்கவா?':'Clear all calculation history?'))return;
+  localStorage.removeItem(HISTORY_KEY);openHistory();
+}
+function clearAllSavedData(){
+  const message=currentLang==='ta'?'இந்த உலாவியில் சேமிக்கப்பட்ட அனைத்து கணக்கீடுகளையும் வரலாற்றையும் நிரந்தரமாக நீக்கவா?':'Permanently delete all saved calculations and history from this browser?';
+  if(!confirm(message))return;
+  try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem(HISTORY_KEY);openHistory();showToast(currentLang==='ta'?'சேமித்த தரவு நீக்கப்பட்டது':'All saved data deleted');}
+  catch(e){showToast(currentLang==='ta'?'தரவை நீக்க முடியவில்லை':'Could not delete saved data');}
+}
+function closeHistory(){
+  const modal=document.getElementById('historyModal');
+  if(modal){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');}
+}
+
 function resetAll(){
  if(!confirm(currentLang==='ta'?'அனைத்து விவரங்களையும் அழிக்கவா?':'Clear all entered details?'))return;
- ['patta','district','taluk','village'].forEach(id=>document.getElementById(id).value='');
+ document.getElementById('patta').value=''; ['district','taluk','village'].forEach(id=>{const m=document.getElementById(id+'Manual');if(m){m.value='';m.hidden=true;document.getElementById(id).hidden=false;}}); document.getElementById('district').value=''; setSelectOptions(document.getElementById('taluk'),[],'Select Taluk','வட்டத்தைத் தேர்ந்தெடுக்கவும்'); setSelectOptions(document.getElementById('village'),[],'Select Revenue Village','வருவாய் கிராமத்தைத் தேர்ந்தெடுக்கவும்'); document.getElementById('taluk').disabled=true; document.getElementById('village').disabled=true;
  document.getElementById('ownersList').innerHTML='';addOwner();
  document.getElementById('rows').innerHTML='';addRow();calculate();
 }
@@ -1767,12 +2412,12 @@ const infoData={
     ta:['எங்களை பற்றி','Patta Area Calculator என்பது பட்டா / சிட்டா நில அளவுகளை பொதுவாக பயன்படுத்தப்படும் நில அளவு அலகுகளாக மாற்றுவதற்கான எளிய குறிப்பு கருவியாகும்.']
   },
   'contact-us':{
-    en:['Contact Us','For feedback, corrections, or suggestions about this calculator, please contact the site owner through the available contact method on the website.'],
-    ta:['தொடர்பு கொள்ள','இந்த கணக்கீட்டு கருவி தொடர்பான கருத்துகள், திருத்தங்கள் அல்லது பரிந்துரைகளுக்கு, இணையதளத்தில் வழங்கப்பட்ட தொடர்பு வழியாக தள உரிமையாளரைத் தொடர்பு கொள்ளவும்.']
+    en:['Contact Us','For feedback, corrections, or suggestions about this calculator, email arunmani.digital@gmail.com.'],
+    ta:['தொடர்பு கொள்ள','இந்த கணக்கீட்டு கருவி தொடர்பான கருத்துகள், திருத்தங்கள் அல்லது பரிந்துரைகளுக்கு arunmani.digital@gmail.com என்ற மின்னஞ்சல் முகவரிக்கு எழுதவும்.']
   },
   'privacy-policy':{
-    en:['Privacy Policy','This calculator is designed for client-side calculations. Entered land details are used by the page to perform calculations and generate the result for copying, sharing, or printing.'],
-    ta:['தனியுரிமைக் கொள்கை','இந்த கணக்கீட்டு கருவி உலாவியிலேயே கணக்கீடுகளைச் செய்ய வடிவமைக்கப்பட்டுள்ளது. உள்ளிடப்பட்ட நில விவரங்கள் கணக்கீடு, நகலெடுப்பு, பகிர்வு அல்லது அச்சிடுதல் போன்ற முடிவுகளை உருவாக்க பயன்படுகின்றன.']
+    en:['Privacy Policy','Calculations run in your browser. Saved calculations and history are stored in this browser on this device using local storage; they are not sent to our server by the save feature. Use History → Delete All Saved Data to remove saved calculations and history from this browser. If you copy, share, or print results, the information you choose to include may be sent to the app or service you use. Location lists may be loaded from external data sources, and the visitor counter uses an external service. Avoid entering information you do not want to share. Clearing browser data may also remove saved calculations.'],
+    ta:['தனியுரிமைக் கொள்கை','கணக்கீடுகள் உங்கள் உலாவியிலேயே நடைபெறும். சேமிக்கப்பட்ட கணக்கீடுகளும் வரலாறும் இந்த சாதனத்தின் உலாவியில் local storage மூலம் சேமிக்கப்படும்; சேமிப்பு அம்சம் அவற்றை எங்கள் சேவையகத்திற்கு அனுப்பாது. வரலாறு → சேமித்த அனைத்து தரவையும் நீக்க என்பதைத் தேர்ந்தெடுத்து இந்த உலாவியில் உள்ள சேமித்த கணக்கீடுகளையும் வரலாற்றையும் நீக்கலாம். முடிவுகளை நகலெடுத்தால், பகிர்ந்தால் அல்லது அச்சிட்டால், நீங்கள் சேர்க்கத் தேர்ந்தெடுத்த தகவல்கள் அந்த செயலி அல்லது சேவைக்கு அனுப்பப்படலாம். இட விவரப் பட்டியல்கள் வெளிப்புற தரவு மூலங்களிலிருந்து ஏற்றப்படலாம்; பார்வையாளர் எண்ணிக்கையும் வெளிப்புற சேவையைப் பயன்படுத்துகிறது. பகிர விரும்பாத தகவல்களை உள்ளிட வேண்டாம். உலாவித் தரவை அழிப்பதால் சேமித்த கணக்கீடுகளும் நீக்கப்படலாம்.']
   },
   'terms':{
     en:['Terms & Conditions','Use this calculator as a reference tool. Check the original Patta / Chitta or official records before relying on any calculated area for legal, financial, registration, or other official purposes.'],
@@ -1787,7 +2432,8 @@ function openInfo(id){
   const item=infoData[id]; if(!item)return;
   const content=currentLang==='ta'?item.ta:item.en;
   document.getElementById('infoTitle').textContent=content[0];
-  document.getElementById('infoContent').innerHTML='<p>'+esc(content[1])+'</p>';
+  const contactEmail=id==='contact-us'?' <p><a href="mailto:arunmani.digital@gmail.com">arunmani.digital@gmail.com</a></p>':'';
+  document.getElementById('infoContent').innerHTML='<p>'+esc(content[1])+'</p>'+contactEmail;
   const modal=document.getElementById('infoModal');
   modal.classList.add('show');
   modal.setAttribute('aria-hidden','false');
@@ -1799,30 +2445,150 @@ function closeInfo(){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInfo();});
 
-['patta','district','taluk','village'].forEach(id=>document.getElementById(id).addEventListener('input',calculate));
+document.getElementById('patta').addEventListener('input',calculate);
+document.getElementById('district').addEventListener('change',async()=>{await loadTaluks();calculate();});
+document.getElementById('taluk').addEventListener('change',async()=>{await loadVillages();calculate();});
+document.getElementById('village').addEventListener('change',calculate);
 document.getElementById('addOwner').addEventListener('click',()=>addOwner());
 document.getElementById('patta').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);calculate();});
-addOwner();addRow();setLang('en');
+setLang('en');
+initManualLocationFallbacks();
+loadDistricts();
 
 async function createPattaImageBlob(){
   const source=document.querySelector('.print-only');
   if(!source || typeof html2canvas==='undefined') return null;
+
+  // WhatsApp image: polished portrait layout based on the approved reference design.
+  const imageWidth=420;
   const holder=document.createElement('div');
-  Object.assign(holder.style,{position:'fixed',left:'-10000px',top:'0',width:'650px',background:'#fff',zIndex:'-1'});
+  Object.assign(holder.style,{
+    position:'fixed',left:'-10000px',top:'0',width:imageWidth+'px',
+    background:'#eef9f0',zIndex:'-1',overflow:'visible'
+  });
+
   const style=document.createElement('style');
-  style.textContent=printStyles()+`*{box-sizing:border-box}html,body{margin:0!important;padding:0!important;background:#fff!important}.print-only{width:650px!important;min-height:0!important;height:auto!important}.doc{width:650px!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;overflow:hidden!important}`;
+  style.textContent=`
+    *{box-sizing:border-box}
+    html,body{margin:0!important;padding:0!important;background:#eef9f0!important;color:#163b2a!important;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+    .print-only{display:block!important;width:${imageWidth}px!important;min-height:0!important;height:auto!important;background:#eef9f0!important}
+    .doc{width:${imageWidth}px!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;border:1px solid #a8d5ad!important;border-radius:15px!important;overflow:hidden!important;background:#f8fff9!important;box-shadow:0 4px 14px rgba(22,92,48,.16)!important}
+    .brand-watermark{position:absolute!important;left:0!important;right:0!important;top:82px!important;bottom:45px!important;z-index:1!important;overflow:hidden!important;pointer-events:none!important;opacity:.055!important;transform:rotate(-24deg)!important;transform-origin:center!important}
+    .brand-watermark-row{display:flex!important;gap:28px!important;white-space:nowrap!important;height:42px!important;align-items:center!important}
+    .brand-watermark-row span{font-size:12px!important;font-weight:800!important;letter-spacing:.5px!important;color:#16834a!important}
+    .brand-footer{position:relative!important;z-index:4!important;margin:8px 18px 11px!important;padding:7px 0 0!important;border-top:1px solid #cfe4d4!important;text-align:center!important;color:#6d9278!important;font-size:7.5px!important;line-height:1.2!important;letter-spacing:.15px!important}
+    .brand-footer b{margin:0 4px!important;color:#8aab92!important}
+    .brand-footer strong{color:#287046!important}
+    .doc>*:not(.brand-watermark){position:relative!important;z-index:2!important}
+
+    /* Header */
+    .doc-title{position:relative!important;margin:0!important;padding:16px 18px 16px!important;min-height:78px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;background:linear-gradient(180deg,#15965a 0%,#087844 57%,#075f39 100%)!important;border:0!important;border-radius:0!important;box-shadow:none!important;color:#fff!important}
+    .doc-title:before,.doc-title:after{content:none!important;display:none!important}
+    .doc-title h2{position:relative!important;z-index:4!important;margin:0!important;padding:0 3px!important;color:#fff!important;font-size:19px!important;line-height:1.16!important;font-weight:800!important;letter-spacing:.35px!important;text-align:center!important;text-shadow:0 1px 1px rgba(0,0,0,.12)!important}
+    .image-subtitle{position:relative!important;z-index:4!important;margin-top:7px!important;color:#f3fff5!important;font-size:10px!important;line-height:1.2!important;font-weight:600!important;text-align:center!important;letter-spacing:.2px!important}
+
+    /* Section cards */
+    .doc-section-label,.print-owner-heading,.doc-total-heading{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;margin:12px 9px 7px!important;padding:9px 13px!important;min-height:34px!important;border:0!important;border-radius:8px!important;background:linear-gradient(180deg,#087c45 0%,#075f38 100%)!important;color:#fff!important;font-size:11.5px!important;line-height:1.15!important;letter-spacing:.05px!important;font-weight:800!important;text-transform:none!important;box-shadow:0 2px 5px rgba(0,80,40,.14)!important}
+    .print-owner-heading{margin-top:0!important;margin-bottom:4px!important;font-size:9.5px!important}
+    .doc-section-label.survey-label{margin-top:12px!important}
+
+    /* Property details */
+    .print-owners{margin:0 9px 4px!important;padding:0!important;border:1px solid #b7dcbf!important;border-radius:8px!important;overflow:hidden!important;background:#fff!important;display:flex!important;flex-direction:column!important;gap:0!important}
+    .print-owner-row{display:flex!important;align-items:center!important;min-height:28px!important;padding:5px 10px!important;border:0!important;border-bottom:1px solid #dbeade!important;color:#1d3c2c!important;font-size:9px!important;line-height:1.2!important;font-weight:700!important;background:#fff!important}
+    .print-owner-row:last-child{border-bottom:0!important}
+    .print-owner-row b{display:inline-block!important;width:20px!important;flex:none!important;color:#5b7464!important;font-size:8px!important}
+    .doc-meta{margin:0 9px!important;padding:0!important;display:flex!important;flex-direction:column!important;gap:0!important;border:1px solid #b7dcbf!important;border-radius:8px!important;overflow:hidden!important;background:#fff!important}
+    .doc-meta>div{display:grid!important;grid-template-columns:126px 16px 1fr!important;align-items:center!important;min-height:29px!important;padding:0 9px!important;border:0!important;border-bottom:1px solid #dbeade!important;background:#fff!important}
+    .doc-meta>div:last-child{border-bottom:0!important}
+    .doc-meta b{margin:0!important;color:#164d30!important;font-size:8.5px!important;line-height:1.15!important;font-weight:800!important;white-space:nowrap!important}
+    .doc-meta b:after{content:""!important}
+    .doc-meta span{color:#172d23!important;font-size:9px!important;line-height:1.15!important;font-weight:700!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+    .doc-meta>div:before{content:":"!important;color:#1f4e34!important;font-size:9px!important;font-weight:800!important;grid-column:2!important;grid-row:1!important;text-align:center!important}
+    .doc-meta>div b{grid-column:1!important;grid-row:1!important}
+    .doc-meta>div span{grid-column:3!important;grid-row:1!important}
+
+    /* Survey table */
+    .doc>table{width:calc(100% - 18px)!important;margin:0 9px!important;border-collapse:separate!important;border-spacing:0!important;table-layout:fixed!important;border:1px solid #b5d8bc!important;border-radius:8px!important;overflow:hidden!important;background:#fff!important;box-shadow:none!important;font-size:7px!important}
+    .doc>table th{height:28px!important;padding:5px 2px!important;background:#d9f0dc!important;color:#14552f!important;border:0!important;border-right:1px solid #bddbc2!important;border-bottom:1px solid #bddbc2!important;text-align:center!important;font-size:6.5px!important;line-height:1.1!important;font-weight:800!important;white-space:normal!important;overflow:hidden!important;text-transform:none!important}
+    .doc>table th:last-child{border-right:0!important}
+    .doc>table td{height:30px!important;padding:5px 2px!important;background:#fff!important;color:#263f31!important;border:0!important;border-top:1px solid #e0ece2!important;border-right:1px solid #edf3ee!important;text-align:center!important;font-size:7px!important;line-height:1.15!important;font-weight:600!important;overflow:hidden!important;white-space:nowrap!important}
+    .doc>table td:last-child{border-right:0!important}
+    .doc>table tbody tr:nth-child(even) td{background:#f7fbf7!important}
+
+    /* Total */
+    .doc-total-section{width:calc(100% - 18px)!important;margin:12px 9px 0!important;padding:0 7px 8px!important;border:1px solid #b5d9bb!important;border-radius:9px!important;background:#eff9f1!important;box-shadow:none!important;overflow:hidden!important}
+    .doc-total-heading{margin:0 -7px 9px!important;border-radius:7px!important;box-shadow:none!important}
+    .doc-total-grid{display:grid!important;grid-template-columns:repeat(6,1fr)!important;grid-template-rows:62px 62px!important;gap:7px!important}
+    .total-box,.total-box:nth-child(1),.total-box:nth-child(2),.total-box:nth-child(3),.total-box:nth-child(4),.total-box:nth-child(5){height:62px!important;min-height:62px!important;padding:6px 4px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;background:#f8fff8!important;border:1px solid #72b97b!important;border-radius:8px!important;box-shadow:none!important;text-align:center!important}
+    .total-box:nth-child(1),.total-box:nth-child(2),.total-box:nth-child(3){grid-column:span 2!important}
+    .total-box:nth-child(4),.total-box:nth-child(5){grid-column:span 3!important}
+    .total-label{font-size:7.4px!important;line-height:1.1!important;color:#174f2e!important;margin:0!important;font-weight:800!important;letter-spacing:.05px!important}
+    .total-box strong{font-size:13.5px!important;line-height:1.05!important;color:#064f2e!important;font-weight:800!important}
+    .total-box .unit{font-size:7px!important;color:#5f7567!important}
+
+    /* Disclaimer */
+    .doc-foot{position:relative!important;width:calc(100% - 18px)!important;margin:11px 9px 11px!important;padding:10px 11px 10px 39px!important;border:1px solid #f0cf63!important;border-radius:9px!important;background:#fff9df!important;color:#5e4a1d!important;font-size:8px!important;line-height:1.45!important;box-shadow:none!important;min-height:48px!important}
+    .doc-foot:before{content:"!"!important;position:absolute!important;left:11px!important;top:11px!important;width:21px!important;height:21px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:#c88800!important;color:#fff!important;font-size:13px!important;font-weight:900!important}
+    .doc-foot a,.doc-foot div{word-break:normal!important}
+  `;
   holder.appendChild(style);
-  const clone=source.cloneNode(true); clone.style.display='block'; clone.style.width='645px'; clone.style.height='auto'; clone.style.minHeight='0'; clone.style.margin='0'; clone.style.background='#fff';
+
+  const clone=source.cloneNode(true);
+  clone.style.display='block';
+  clone.style.width=imageWidth+'px';
+  clone.style.height='auto';
+  clone.style.minHeight='0';
+  clone.style.margin='0';
+  clone.style.background='#eef9f0';
+
+  // The approved reference uses text-only section headers. Do not add icons.
+  clone.querySelectorAll('.doc-section-label,.print-owner-heading,.doc-total-heading').forEach(el=>{
+    el.querySelectorAll('span').forEach(span=>span.remove());
+  });
+
+  // Add the subtitle from the approved WhatsApp design.
   const title=clone.querySelector('.doc-title');
-  if(title && !title.querySelector('.image-subtitle')){const sub=document.createElement('div');sub.className='image-subtitle';sub.textContent=currentLang==='ta'?'நில அளவீட்டு மாற்று சுருக்கம்':'Land Measurement Conversion Summary';title.appendChild(sub);}
-  holder.appendChild(clone); document.body.appendChild(holder);
+  if(title){
+    title.querySelectorAll('.image-subtitle').forEach(el=>el.remove());
+    const sub=document.createElement('div');
+    sub.className='image-subtitle';
+    sub.textContent=currentLang==='ta'?'நில அளவீட்டு மாற்று சுருக்கம்':'Land Area Conversion Summary';
+    title.appendChild(sub);
+  }
+
+  // Match the reference wording while preserving the site's actual 7-column survey data.
+  const heading=clone.querySelector('.doc-title h2');
+  if(heading) heading.textContent=currentLang==='ta'?'தமிழ்நாடு பட்டா விவரங்கள்':'TAMIL NADU PATTA DETAILS';
+
+  // Keep the image clean: no website URL is added to the image.
+  const foot=clone.querySelector('.doc-foot');
+  if(foot){
+    const text=currentLang==='ta'
+      ? 'உள்ளிடப்பட்ட பட்டா / சிட்டா அளவீடுகளின் அடிப்படையில் தயாரிக்கப்பட்ட கணக்கீடு. இது அரசு வழங்கும் அதிகாரப்பூர்வ பட்டா சான்றிதழ் அல்ல. அதிகாரப்பூர்வ ஆவணங்களுடன் சரிபார்க்கவும்.'
+      : 'This calculation is for informational purposes only. Please verify the details with official documents.';
+    foot.textContent=text;
+  }
+
+  addBrandingToDocument(clone,'image');
+  holder.appendChild(clone);
+  document.body.appendChild(holder);
   try{
     await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-    const canvas=await html2canvas(clone,{scale:2,useCORS:true,backgroundColor:'#fff',logging:false,width:650,windowWidth:650,height:Math.ceil(clone.scrollHeight),windowHeight:Math.ceil(clone.scrollHeight)});
+    const canvas=await html2canvas(clone,{
+      scale:3,
+      useCORS:true,
+      backgroundColor:'#eef9f0',
+      logging:false,
+      width:imageWidth,
+      windowWidth:imageWidth,
+      height:Math.ceil(clone.scrollHeight),
+      windowHeight:Math.ceil(clone.scrollHeight)
+    });
     return await new Promise(r=>canvas.toBlob(r,'image/png',1));
-  }finally{holder.remove();}
+  }finally{
+    holder.remove();
+  }
 }
-
 async function sharePrintImage(){
   calculate();
   const source=document.querySelector('.print-only');
@@ -2120,116 +2886,6 @@ async function sharePrintImage(){
       ? 'நில அளவீட்டு மாற்று சுருக்கம்'
       : 'Land Measurement Conversion Summary';
     title.appendChild(sub);
-  }
-
-  // Emoji-style icon badges matching the reference image.
-  const sectionIcons={
-    'PROPERTY DETAILS':'🏠','சொத்து விவரங்கள்':'🏠',
-    'SURVEY DETAILS':'▦','சர்வே விவரங்கள்':'▦',
-    'TOTAL LAND':'📚','மொத்த நிலம்':'📚'
-  };
-
-  clone.querySelectorAll('.doc-section-label,.doc-total-heading').forEach(el=>{
-    const icon=sectionIcons[el.textContent.trim()];
-    if(icon){
-      const i=document.createElement('span');
-      i.textContent=icon;
-      i.className='ref-emoji-icon';
-      i.style.cssText=[
-        'display:inline-flex',
-        'align-items:center',
-        'justify-content:center',
-        'width:30px',
-        'height:30px',
-        'margin-right:9px',
-        'border-radius:50%',
-        'background:#d9f8e7',
-        'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif',
-        'font-size:17px',
-        'line-height:1',
-        'flex:none'
-      ].join(';');
-      el.prepend(i);
-    }
-  });
-
-  const ownersHeading=clone.querySelector('.print-owner-heading');
-  if(ownersHeading){
-    const i=document.createElement('span');
-    i.textContent='👥';
-    i.style.cssText=[
-      'display:inline-flex','align-items:center','justify-content:center',
-      'width:34px','height:34px','margin-right:9px','border-radius:50%',
-      'background:#d9f8e7',
-      'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif',
-      'font-size:18px','line-height:1','flex:none'
-    ].join(';');
-    ownersHeading.prepend(i);
-  }
-
-  const totalIcons=['🌱','🎯','🔲','↗️','🧊'];
-  const totalIconBg=['#d9f8e7','#dceffd','#fff0bd','#eadcff','#d8f4e8'];
-  clone.querySelectorAll('.total-box').forEach((box,index)=>{
-    const i=document.createElement('span');
-    i.textContent=totalIcons[index]||'•';
-    i.style.cssText=[
-      'display:inline-flex','align-items:center','justify-content:center',
-      'width:46px','height:46px','margin:0','border-radius:50%',
-      'background:'+totalIconBg[index]+'',
-      'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif',
-      'font-size:20px','line-height:1','flex:none'
-    ].join(';');
-    box.prepend(i);
-  });
-
-
-
-  // Header icons: document + Tamil Nadu map style.
-  const header=clone.querySelector('.doc-title');
-  if(header){
-    const left=document.createElement('span');
-    left.textContent='📜';
-    left.style.cssText=[
-      'position:absolute','left:24px','top:22px','z-index:3',
-      'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif',
-      'font-size:38px','line-height:1'
-    ].join(';');
-
-    const right=document.createElement('span');
-    right.textContent='🗺️';
-    right.style.cssText=[
-      'position:absolute','right:24px','top:22px','z-index:3',
-      'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif',
-      'font-size:38px','line-height:1'
-    ].join(';');
-
-    header.prepend(left);
-    header.appendChild(right);
-  }
-
-  // Website address for the shared image.
-  const foot=clone.querySelector('.doc-foot');
-  if(foot){
-    const siteLink=document.createElement('div');
-    siteLink.textContent='Calculate yours area at: https://arunmani07.github.io/Patta-area-calculator/';
-    siteLink.style.cssText=[
-      'margin-top:12px','padding-top:10px','border-top:1px solid #d9e7df',
-      'font-size:18px','font-weight:700','line-height:1.45','text-align:center',
-      'color:#166534','word-break:break-all'
-    ].join(';');
-    foot.appendChild(siteLink);
-
-    const info=document.createElement('span');
-    info.textContent='ℹ️';
-    info.style.cssText=[
-      'display:inline-flex','align-items:center','justify-content:center',
-      'width:34px','height:34px','margin-right:8px','border-radius:50%',
-      'background:#fbbf24',
-      'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif',
-      'font-size:20px','line-height:1','vertical-align:middle','float:left'
-    ].join(';');
-    foot.prepend(info);
-    foot.style.minHeight='42px';
   }
 
   holder.appendChild(clone);
