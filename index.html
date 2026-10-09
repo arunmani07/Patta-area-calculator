@@ -80,6 +80,9 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 .patta-table input,.patta-table select{width:100%;box-sizing:border-box;height:42px;margin:0}
 .patta-table .subdivision-input{min-width:0}
 .row-actions{display:flex;gap:8px;justify-content:center;align-items:center}
+.row-remove-icon{width:34px;height:34px;min-width:34px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;background:#fff1f2!important;color:#dc2626!important;border:1px solid #fecaca!important;border-radius:8px;font-size:19px!important;line-height:1;cursor:pointer}
+.row-remove-icon:hover{background:#fee2e2!important;color:#b91c1c!important}
+.row-remove-icon svg{width:17px;height:17px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .table-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .helper-text{display:none!important}
 @media(max-width:700px){
@@ -857,7 +860,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
     min-width:0 !important;
   }
 
-  /* Converted-result summary: four cards fill one clean row */
+  /* Converted-result summary: five cards fill one clean row */
   .result-grid{
     grid-template-columns:repeat(4,minmax(0,1fr)) !important;
     gap:10px !important;
@@ -1294,6 +1297,22 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cbd6ce;border-radius
 .developer{display:inline-flex;align-items:center;justify-content:center;gap:4px;margin-top:8px;padding:6px 12px;border:1px solid #cfe9df;border-radius:999px;background:linear-gradient(135deg,#f0fdf4,#ecfeff);font-size:13px;font-weight:600;color:#334155;box-shadow:0 3px 12px rgba(15,118,110,.08)}
 .developer strong{font-weight:800;color:#0f766e}
 .developer-emoji{font-size:15px;line-height:1;margin-left:1px}
+.donate-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:12px auto 2px;padding:11px 22px;border:1px solid #b8dfc5;border-radius:999px;background:linear-gradient(135deg,#e8f7ec,#d7f0df);color:#176338;font-size:14px;font-weight:800;text-decoration:none;box-shadow:0 4px 12px rgba(22,101,52,.09);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+.donate-button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(22,101,52,.14)}
+.donate-button:focus-visible{outline:3px solid #86c99b;outline-offset:3px}
+
+.donate-modal{position:fixed;inset:0;z-index:10020;display:none;align-items:center;justify-content:center;padding:18px}
+.donate-modal.show{display:flex}
+.donate-modal-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.48);backdrop-filter:blur(3px)}
+.donate-dialog{position:relative;width:min(100%,390px);padding:25px 22px 20px;border:1px solid #cfe6d4;border-radius:22px;background:linear-gradient(155deg,#f3fbf5,#ffffff 72%);box-shadow:0 20px 60px rgba(20,83,45,.22);text-align:center}
+.donate-close{position:absolute;right:12px;top:10px;width:34px;height:34px;border:0;border-radius:50%;background:#edf6ef;color:#42634c;font-size:22px;cursor:pointer}
+.donate-heart{font-size:30px;line-height:1.2;margin:2px 0 10px}
+.donate-dialog h2{margin:0 24px 9px;color:#14532d;font-size:21px}
+.donate-dialog p{margin:0 auto 18px;max-width:310px;color:#526358;font-size:14px;line-height:1.6}
+.donate-modal-action{display:flex;flex-direction:column;align-items:center;gap:12px}
+.donate-modal-action .donate-button{margin:0;width:100%;background:linear-gradient(135deg,#166534,#14532d);color:#fff;border-color:#14532d}
+.donate-later{border:0;background:transparent;color:#5f7164;text-decoration:underline;text-underline-offset:3px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+@media(prefers-reduced-motion:no-preference){.donate-dialog{animation:donatePop .22s ease-out}@keyframes donatePop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}}
 .visitor-counter{
   display:inline-flex;
   align-items:center;
@@ -1716,9 +1735,10 @@ input::placeholder,textarea::placeholder{font-weight:400;color:#809087}
 <div class="stat"><small data-en="CENT" data-ta="சென்ட்">CENT</small><strong id="sCent">0.00</strong></div>
 <div class="stat"><small data-en="GROUND" data-ta="கிரவுண்ட்">GROUND</small><strong id="sGround">0.00</strong></div>
 <div class="stat"><small data-en="SQ. FT." data-ta="சதுர அடி">SQ. FT.</small><strong id="sSqft">0.00</strong></div>
+<div class="stat"><small data-en="SQ. M." data-ta="சதுர மீட்டர்">SQ. M.</small><strong id="sSqm">0.00</strong></div>
 </div>
 <div class="actions result-actions">
-<button class="btn copy" onclick="copyText()">Copy Result</button>
+<button class="btn copy" onclick="copyText()" data-en="Copy Text" data-ta="Copy Text">Copy Text</button>
 <button class="btn whatsapp" onclick="shareWhatsApp()">WhatsApp</button>
 <button class="btn primary" onclick="printPatta()">📄 <span data-en="PDF" data-ta="PDF">PDF</span></button>
 </div>
@@ -1777,6 +1797,7 @@ input::placeholder,textarea::placeholder{font-weight:400;color:#809087}
   <div class="copyright" data-en="© 2026 Patta Area Calculator. For reference and calculation purposes only."
        data-ta="© 2026 Patta Area Calculator. குறிப்பு மற்றும் கணக்கீட்டு நோக்கங்களுக்காக மட்டுமே.">© 2026 Patta Area Calculator. For reference and calculation purposes only.</div>
   <div class="developer"><span class="developer-label" data-en="Developed by" data-ta="உருவாக்கியவர்">Developed by</span> <strong id="developerName">Arunmani Cidheswaran</strong> <span class="developer-emoji" aria-hidden="true">🌿</span></div>
+  <button class="donate-button" type="button" onclick="donateNow()" data-en="❤️ Support via UPI" data-ta="❤️ UPI மூலம் ஆதரிக்கவும்">❤️ Support via UPI</button>
   <div class="visitor-counter" aria-live="polite">
     <span class="visitor-icon" aria-hidden="true">👥</span>
     <span data-en="Visitors:" data-ta="பார்வையாளர்கள்:">Visitors:</span>
@@ -1806,12 +1827,29 @@ input::placeholder,textarea::placeholder{font-weight:400;color:#809087}
   </div>
 </div>
 
+
+<div class="donate-modal" id="donateModal" role="dialog" aria-modal="true" aria-labelledby="donateModalTitle" aria-describedby="donateModalText">
+  <div class="donate-modal-backdrop" data-donate-close></div>
+  <section class="donate-dialog">
+    <button class="donate-close" type="button" aria-label="Close donation prompt" data-donate-close>×</button>
+    <div class="donate-heart" aria-hidden="true">❤️</div>
+    <h2 id="donateModalTitle" data-en="Enjoying This Free Tool?" data-ta="இந்த இலவச கருவி உங்களுக்கு பயனுள்ளதாக உள்ளதா?">Enjoying This Free Tool?</h2>
+    <p id="donateModalText" data-en="If this calculator was helpful, you can support its maintenance and future improvements with a small voluntary contribution." data-ta="இந்த கணிப்பான் உங்களுக்கு பயனுள்ளதாக இருந்தால், இதைப் பராமரிக்கவும் மேலும் மேம்படுத்தவும் உங்கள் விருப்பப்படி சிறிய தொகையை வழங்கி ஆதரிக்கலாம்.">If this calculator was helpful, you can support its maintenance and future improvements with a small voluntary contribution.</p>
+    <div class="donate-modal-action">
+      <button class="donate-button" id="donateModalPay" type="button" data-en="❤️ Support Us via UPI" data-ta="❤️ UPI மூலம் ஆதரிக்கவும்">❤️ Support Us via UPI</button>
+      <button class="donate-later" id="donateModalLater" type="button" data-en="Maybe later" data-ta="பிறகு பார்க்கலாம்">Maybe later</button>
+    </div>
+  </section>
+</div>
+
 <div class="toast" id="toast">Copied!</div>
 
 <script>
 const SQM_ACRE=4046.8564224,SQM_CENT=40.468564224,SQM_GROUND=222.967104,SQM_SQFT=10.7639104167;
 const CALCULATE_URL='https://arunmani07.github.io/Patta-area-calculator/';
 const VISITOR_COUNTER_KEY='patta_area_calculator_arunmani07_visits';
+// Replace this placeholder with your actual UPI ID to enable payments.
+const DONATION_UPI_ID='arunmanic05-3@okhdfcbank';
 let currentLang='en';
 
 async function updateVisitorCount(){
@@ -1839,9 +1877,86 @@ async function updateVisitorCount(){
 
 
 
+function donateNow(){
+  if(!DONATION_UPI_ID||DONATION_UPI_ID==='YOUR_UPI_ID_HERE'){
+    showToast(currentLang==='ta'?'நன்கொடை வசதியை இயக்க உங்கள் UPI ID சேர்க்கவும்.':'Add your UPI ID in the HTML to enable donations.');
+    return;
+  }
+  const params=new URLSearchParams({pa:DONATION_UPI_ID,pn:'Arunmani Cidheswaran',tn:'Support Patta Area Calculator',cu:'INR'});
+  window.location.href='upi://pay?'+params.toString();
+}
+
+
+// Donation prompt uses the browser Back button, footer visibility, and a 60-second timer.
+let donatePromptTimer=null;
+let donatePromptShownThisPage=false;
+let donatePromptIntervals=[];
+let donatePromptFooterObserver=null;
+let donateAllowActualBack=false;
+let donateBackPromptVisible=false;
+
+function closeDonatePrompt(){
+ const modal=document.getElementById('donateModal');
+ if(modal && modal.classList.contains('show')){
+  modal.classList.remove('show');
+  // Only the Back-button prompt should release the next Back press.
+  if(donateBackPromptVisible) donateAllowActualBack=true;
+  donateBackPromptVisible=false;
+ }
+}
+function showDonatePrompt(){
+ const modal=document.getElementById('donateModal');
+ if(!modal)return;
+ modal.classList.add('show');
+ donatePromptShownThisPage=true;
+}
+function maybeShowDonatePrompt(){
+ showDonatePrompt();
+}
+function initDonatePrompt(){
+ const modal=document.getElementById('donateModal');
+ if(!modal)return;
+
+ modal.querySelectorAll('[data-donate-close]').forEach(el=>el.addEventListener('click',closeDonatePrompt));
+ document.getElementById('donateModalLater')?.addEventListener('click',closeDonatePrompt);
+ document.getElementById('donateModalPay')?.addEventListener('click',()=>{closeDonatePrompt();donateNow();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDonatePrompt();});
+
+ // 1) Trap the browser/phone Back button in the current page and show the prompt.
+ // Re-arm the history entry after each Back press so subsequent presses work too.
+ try { history.pushState({donatePromptTrap:true}, '', location.href); } catch (e) {}
+ window.addEventListener('popstate',()=>{
+  if(donateAllowActualBack){
+   // The user dismissed the prompt; do not trap the next Back press.
+   donateAllowActualBack=false;
+   return;
+  }
+  donateBackPromptVisible=true;
+  showDonatePrompt();
+  try { history.pushState({donatePromptTrap:true}, '', location.href); } catch (e) {}
+ });
+
+ // 2) Show whenever the footer enters the viewport, without requiring any form input.
+ const footer=document.querySelector('footer');
+ if(footer && 'IntersectionObserver' in window){
+  donatePromptFooterObserver=new IntersectionObserver(entries=>{
+   if(entries.some(entry=>entry.isIntersecting))showDonatePrompt();
+  },{threshold:0.15});
+  donatePromptFooterObserver.observe(footer);
+ }
+
+ // 3) Show at 60 seconds, then every 60 seconds after that.
+ // Dismissing the modal does not disable future scheduled prompts.
+ const repeatPrompt=()=>{
+  showDonatePrompt();
+  donatePromptIntervals.push(setTimeout(repeatPrompt,60000));
+ };
+ donatePromptIntervals.push(setTimeout(repeatPrompt,60000));
+}
+
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
-document.addEventListener('DOMContentLoaded',()=>{ updateVisitorCount(); addOwner(); addRow(); calculate(); });
+document.addEventListener('DOMContentLoaded',()=>{ updateVisitorCount(); addOwner(); addRow(); initDonatePrompt(); calculate(); });
 
 function addOwner(d={}){
   const list=document.getElementById('ownersList');
@@ -1879,12 +1994,12 @@ function addRow(d={}){
   <td><input class="sub subdivision-input" maxlength="6" value="${esc(d.sub||'')}" placeholder="Sub-Division" data-placeholder-en="Sub-Division" data-placeholder-ta="உட்பிரிவு"></td>
   <td><input class="ha" type="number" min="0" step="0.0001" value="${esc(d.ha??'')}" placeholder="Hectare" data-placeholder-en="Hectare" data-placeholder-ta="ஹெக்டேர்"></td>
   <td><input class="are" type="number" min="0" step="0.01" value="${esc(d.are??'')}" placeholder="Are" data-placeholder-en="Are" data-placeholder-ta="ஏர்"></td>
-  <td><div class="row-actions"><button type="button" class="btn danger row-remove" data-en="Delete" data-ta="அழிக்க">Delete</button></div></td>`;
+  <td><div class="row-actions"><button type="button" class="row-remove-icon" aria-label="Delete survey row" title="Delete" data-en-title="Delete" data-ta-title="அழிக்க" data-en-aria="Delete survey row" data-ta-aria="சர்வே வரியை நீக்கு"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m4 4v6m6-6v6"/></svg></button></div></td>`;
  const survey=tr.querySelector('.survey');
  survey.addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);calculate();});
  tr.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calculate));
  tr.querySelectorAll('select').forEach(el=>el.addEventListener('change',calculate));
- tr.querySelector('.row-remove').addEventListener('click',()=>{
+ tr.querySelector('.row-remove-icon').addEventListener('click',()=>{
    const total=document.querySelectorAll('#rows tr').length;
    if(total===1){
      tr.querySelectorAll('input').forEach(input=>input.value='');
@@ -1910,6 +2025,7 @@ function calculate(){
  document.getElementById('sCent').textContent=(sqm/SQM_CENT).toFixed(2);
  document.getElementById('sGround').textContent=(sqm/SQM_GROUND).toFixed(2);
  document.getElementById('sSqft').textContent=(sqm*SQM_SQFT).toFixed(2);
+ document.getElementById('sSqm').textContent=sqm.toFixed(2);
  fillTable('resultRows',d);fillTable('printRows',d);syncPrint(d,sqm);
 }
 function validateInputs(showMessage=true){
